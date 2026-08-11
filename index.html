@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F5F0E8; --dots:#E0D8CC; --card:#FDFCFA; --ink:#2C2418;
-    --accent:#A8905C; --accent-2:#C4A96A; --muted:#8C7E6A; --faint:#A0957E;
-    --border:#D9D3C9; --chip:#E8E2D8;
+    --bg:#141210; --bg2:#1B1712; --card:#201C16; --screen:#FBF7EF;
+    --ink:#F3EEE4; --muted:#B4AB98; --faint:#877E6D;
+    --accent:#C4A96A; --accent-2:#A8905C; --border:#332E24; --dots:#241F18;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -20,94 +20,86 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
     color:var(--ink);
     background:var(--bg);
-    background-image:radial-gradient(var(--dots) 1.4px, transparent 1.4px);
-    background-size:24px 24px;
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(var(--dots) 1.3px, transparent 1.3px);
+    background-size:26px 26px;
+    line-height:1.55;-webkit-font-smoothing:antialiased;
   }
-  .serif{font-family:Georgia,"Times New Roman",serif}
-  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
 
-  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
-  .logo{font-family:Georgia,serif;font-weight:700;font-size:24px;letter-spacing:.5px}
-  .logo span{color:var(--accent)}
-  .navlinks{display:flex;gap:22px}
-  nav a.small{color:var(--muted);text-decoration:none;font-size:14px}
-  nav a.small:hover{color:var(--ink)}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+  .logo{font-weight:700;font-size:22px;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+  .logo b{color:var(--accent);font-family:Georgia,serif}
+  .navmid{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--faint)}
+  .btn{padding:11px 20px;font-size:14px;font-weight:600;color:#1a1610;background:var(--accent);border:none;border-radius:10px;cursor:pointer;text-decoration:none;transition:background .15s}
+  .btn:hover{background:#d4ba7c}
 
-  header{text-align:center;padding:56px 0 30px}
-  .eyebrow{
-    display:inline-block;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;
-    color:var(--faint);background:var(--chip);border:1px solid var(--border);
-    padding:6px 14px;border-radius:999px;margin-bottom:26px;
-  }
+  /* ---- Hero grid ---- */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start;padding:40px 0 30px}
+  .eyebrow{font-size:12px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);margin-bottom:22px;display:flex;align-items:center;gap:8px}
+  .eyebrow .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 
-  h1{font-family:'Caveat','Bradley Hand','Segoe Script',cursive;font-weight:700;font-size:62px;line-height:1.06;letter-spacing:0}
+  h1{font-family:'Caveat','Bradley Hand','Segoe Script',cursive;font-weight:700;font-size:58px;line-height:1.02;letter-spacing:0;color:var(--ink)}
   h1 .hl{color:var(--accent)}
   .wline{display:block;white-space:nowrap}
   .wtext{display:inline-block;white-space:nowrap;overflow:hidden;vertical-align:bottom;max-width:100%}
-  /* hand-drawn underline that draws itself (native equivalent of framer-motion pathLength) */
-  .headline-underline{display:block;width:min(540px,92%);height:22px;margin:2px auto 0}
+  .headline-underline{display:block;width:min(460px,96%);height:20px;margin:4px 0 0}
   .headline-underline path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round}
   @media (prefers-reduced-motion: no-preference){
     .headline-underline path{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.1s ease forwards 2.15s}
     @keyframes drawline{to{stroke-dashoffset:0}}
   }
 
-  .sub{font-size:18px;color:var(--muted);max-width:520px;margin:22px auto 0}
+  .sub{font-size:17px;color:var(--muted);max-width:480px;margin:22px 0 0}
+  .sub b{color:var(--ink)}
 
-  form{display:flex;gap:10px;max-width:440px;margin:34px auto 0}
-  input[type=email]{
-    flex:1;padding:14px 16px;font-size:16px;color:var(--ink);
-    background:var(--card);border:1px solid var(--border);border-radius:12px;outline:none;
-  }
+  form{display:flex;gap:10px;max-width:440px;margin:28px 0 0}
+  input[type=email]{flex:1;padding:14px 16px;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--border);border-radius:11px;outline:none}
+  input[type=email]::placeholder{color:var(--faint)}
   input[type=email]:focus{border-color:var(--accent)}
-  button{
-    padding:14px 22px;font-size:16px;font-weight:600;color:#fff;
-    background:var(--accent);border:none;border-radius:12px;cursor:pointer;white-space:nowrap;transition:background .15s;
-  }
-  button:hover{background:#96814f}
-  button:disabled{opacity:.6;cursor:default}
-  .watch{display:inline-block;margin-top:16px;color:var(--accent);text-decoration:none;font-size:15px;font-weight:600}
+  button.submit{padding:14px 22px;font-size:16px;font-weight:600;color:#1a1610;background:var(--accent);border:none;border-radius:11px;cursor:pointer;white-space:nowrap;transition:background .15s}
+  button.submit:hover{background:#d4ba7c}
+  button.submit:disabled{opacity:.6;cursor:default}
+  .watch{display:inline-block;margin-top:14px;color:var(--accent);text-decoration:none;font-size:15px;font-weight:600}
   .watch:hover{text-decoration:underline}
-  .note{font-size:13px;color:var(--faint);margin-top:14px}
-  .msg{margin-top:16px;font-size:15px;min-height:20px}
+  .note{font-size:13px;color:var(--faint);margin-top:12px}
+  .msg{margin-top:14px;font-size:15px;min-height:20px}
   .msg.ok{color:var(--accent)}
-  .msg.err{color:#b0603c}
+  .msg.err{color:#d98a63}
 
-  .section-title{font-family:Georgia,serif;font-size:26px;text-align:center;margin-bottom:8px}
-  .section-sub{text-align:center;color:var(--muted);font-size:15px;margin:0 auto 26px;max-width:520px}
-  section.block{padding:44px 0 8px}
-
-  /* ---- Demo video ---- */
-  .video-frame{
-    position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;
-    background:#efe8dc;border:1px solid var(--border);box-shadow:0 18px 50px -20px rgba(44,36,24,.35);
-  }
+  /* ---- Demo video (left, under form) ---- */
+  .video-block{margin-top:38px}
+  .block-label{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+  .video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:var(--bg2);border:1px solid var(--border);box-shadow:0 24px 60px -30px rgba(0,0,0,.8)}
   .video-frame video,.video-frame iframe{width:100%;height:100%;border:0;display:block;object-fit:cover;cursor:pointer}
-  .video-placeholder{
-    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--faint);
-    background:radial-gradient(var(--dots) 1.4px, transparent 1.4px) 0 0/20px 20px,linear-gradient(180deg,#faf6ee,#efe8dc);
-  }
-  .play{width:66px;height:66px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px -6px rgba(168,144,92,.6)}
-  .play:after{content:"";border-left:20px solid #fff;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:4px}
-  .sound-btn{position:absolute;bottom:12px;right:12px;z-index:3;display:none;width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;background:rgba(44,36,24,.6);color:#fff;font-size:16px;line-height:40px;padding:0}
-  .sound-btn:hover{background:rgba(44,36,24,.8)}
+  .video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--faint);
+    background:radial-gradient(var(--dots) 1.3px,transparent 1.3px) 0 0/20px 20px,linear-gradient(180deg,#1f1b15,#171410)}
+  .play{width:60px;height:60px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px -6px rgba(196,169,106,.5)}
+  .play:after{content:"";border-left:18px solid #1a1610;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:4px}
+  .sound-btn{position:absolute;bottom:12px;right:12px;z-index:3;display:none;width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;background:rgba(0,0,0,.55);color:#fff;font-size:15px;line-height:38px;padding:0}
+  .sound-btn:hover{background:rgba(0,0,0,.8)}
 
-  /* ---- Desmos ---- */
-  .calc-frame{position:relative;width:100%;height:440px;border-radius:18px;overflow:hidden;border:1px solid var(--border);box-shadow:0 18px 50px -22px rgba(44,36,24,.35);background:var(--card)}
+  /* ---- Integration card (right) with gradient border ---- */
+  .integration{position:sticky;top:24px;align-self:start;border-radius:22px;padding:1.5px;
+    background:linear-gradient(150deg,rgba(196,169,106,.6),rgba(196,169,106,.06) 45%,rgba(243,238,228,.10));
+    box-shadow:0 40px 100px -50px rgba(0,0,0,.9)}
+  .integration-inner{border-radius:20px;background:var(--card);overflow:hidden}
+  .integration-head{display:flex;align-items:center;gap:9px;padding:14px 18px;border-bottom:1px solid var(--border);font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint)}
+  .integration-head .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .integration-head b{color:var(--ink);font-weight:600}
+  .calc-wrap{padding:14px}
+  .calc-frame{position:relative;width:100%;height:440px;border-radius:14px;overflow:hidden;background:var(--screen);border:1px solid var(--border)}
   #calculator{width:100%;height:100%}
-  .calc-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:14px;
-    background:radial-gradient(var(--dots) 1.4px, transparent 1.4px) 0 0/20px 20px,linear-gradient(180deg,#faf6ee,#efe8dc)}
+  .calc-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#a99;font-size:14px;background:var(--screen)}
+  .calc-cap{padding:0 18px 16px;font-size:13px;color:var(--faint);text-align:center}
 
-  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:56px 0 20px}
+  /* ---- Features ---- */
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:64px 0 10px}
   .feat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px}
-  .feat h3{font-family:Georgia,serif;font-size:18px;margin-bottom:8px}
+  .feat h3{font-family:Georgia,serif;font-size:18px;margin-bottom:8px;color:var(--ink)}
   .feat p{font-size:14px;color:var(--muted)}
 
-  .mission{text-align:center;padding:44px 0 8px;color:var(--muted);font-size:15px;max-width:560px;margin:0 auto}
+  .mission{text-align:center;padding:56px 0 8px;color:var(--muted);font-size:15px;max-width:600px;margin:0 auto}
   .mission b{color:var(--ink);font-weight:600}
-
   footer{text-align:center;padding:48px 0 40px;color:var(--faint);font-size:13px}
   footer a{color:var(--muted);text-decoration:none}
   footer a:hover{color:var(--ink)}
@@ -117,76 +109,83 @@
     .d1{animation-delay:2.2s}.d2{animation-delay:2.45s}.d3{animation-delay:2.65s}
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   }
-  @media(max-width:640px){
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;gap:34px}
+    .integration{position:static}
+    .navmid{display:none}
     h1{font-size:42px}
     .features{grid-template-columns:1fr}
     form{flex-direction:column}
-    button{width:100%}
-    .navlinks a:first-child{display:none}
+    button.submit{width:100%}
   }
 </style>
 </head>
 <body>
   <div class="wrap">
     <nav>
-      <div class="logo">Glyph<span>.</span></div>
-      <div class="navlinks">
-        <a class="small" href="#how">How it works</a>
-        <a class="small" href="#demo">Watch demo</a>
-      </div>
+      <div class="logo"><b>△</b> Glyph</div>
+      <div class="navmid">Handwritten notes · Learn by doing</div>
+      <a class="btn" href="#join">Join the waitlist</a>
     </nav>
 
-    <header>
-      <span class="eyebrow">Coming 2026 · iPad</span>
-      <h1 id="heroWrite">
-        <span class="wline"><span class="wtext"><span class="hl">Glyph</span> — a classroom</span></span>
-        <span class="wline"><span class="wtext">that lives inside your notebook</span></span>
-      </h1>
-      <svg class="headline-underline" viewBox="0 0 600 22" preserveAspectRatio="none" aria-hidden="true">
-        <path pathLength="1" d="M6 13 C 130 3, 250 20, 360 11 S 520 5, 594 14" />
-      </svg>
-      <p class="sub fade d1">Write your notes by hand. Glyph reads them, teaches from them, and answers in your own handwriting. An AI tutor that makes you learn, not skip.</p>
-      <form id="waitform" class="fade d2">
-        <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" />
-        <button type="submit" id="submitBtn">Join the waitlist</button>
-      </form>
-      <a class="watch fade d3" href="#demo">▶  Watch the 1-minute demo</a>
-      <div class="msg" id="msg" role="status" aria-live="polite"></div>
-      <div class="note fade d3">Any email works. No spam, just one message when we launch.</div>
-    </header>
+    <section class="hero">
+      <!-- LEFT: writing + form + demo video -->
+      <div class="left">
+        <div class="eyebrow"><span class="d"></span> Glyph · your handwriting tutor</div>
+        <h1 id="heroWrite">
+          <span class="wline"><span class="wtext"><span class="hl">Glyph</span> — a classroom</span></span>
+          <span class="wline"><span class="wtext">that lives inside your notebook</span></span>
+        </h1>
+        <svg class="headline-underline" viewBox="0 0 600 20" preserveAspectRatio="none" aria-hidden="true">
+          <path pathLength="1" d="M6 12 C 130 3, 250 18, 360 10 S 520 5, 594 13" />
+        </svg>
 
-    <!-- Demo video -->
-    <section class="block" id="demo">
-      <h2 class="section-title">See it in action</h2>
-      <p class="section-sub">Watch a full note turn into answers, worksheets, and quizzes.</p>
-      <div class="video-frame">
-        <!--
-          ADD YOUR DEMO VIDEO: uncomment the <source> and drop demo.mp4 in this folder.
-          Autoplays muted on load; click pauses/resumes; speaker button unmutes.
-          For YouTube instead, replace the whole <video> with an <iframe>.
-        -->
-        <video id="demoVideo" autoplay muted loop playsinline preload="metadata" poster="demo-poster.jpg" style="display:none">
-          <!-- <source src="demo.mp4" type="video/mp4" /> -->
-        </video>
-        <button class="sound-btn" id="soundBtn" aria-label="Unmute">🔇</button>
-        <div class="video-placeholder" id="videoPlaceholder">
-          <div class="play" aria-hidden="true"></div>
-          <span>Demo video coming soon</span>
+        <p class="sub fade d1">Write your notes by hand. Glyph reads them, teaches from them, and answers in your own handwriting. An AI tutor that makes you <b>learn, not skip</b>.</p>
+
+        <form id="waitform" class="fade d2">
+          <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" />
+          <button type="submit" class="submit" id="submitBtn">Join the waitlist</button>
+        </form>
+        <a class="watch fade d3" href="#video">▶  Watch the 1-minute demo</a>
+        <div class="msg" id="msg" role="status" aria-live="polite"></div>
+        <div class="note fade d3">Any email works. No spam, just one message when we launch.</div>
+
+        <div class="video-block" id="video">
+          <div class="block-label">See it in action</div>
+          <div class="video-frame">
+            <!--
+              ADD YOUR DEMO VIDEO: uncomment <source> and drop demo.mp4 here.
+              Autoplays muted; click pauses; speaker button unmutes. YouTube: swap in an <iframe>.
+            -->
+            <video id="demoVideo" autoplay muted loop playsinline preload="metadata" poster="demo-poster.jpg" style="display:none">
+              <!-- <source src="demo.mp4" type="video/mp4" /> -->
+            </video>
+            <button class="sound-btn" id="soundBtn" aria-label="Unmute">🔇</button>
+            <div class="video-placeholder" id="videoPlaceholder">
+              <div class="play" aria-hidden="true"></div>
+              <span>Demo video coming soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Desmos integration in a bordered card -->
+      <div class="integration">
+        <div class="integration-inner">
+          <div class="integration-head"><span class="d"></span> <b>Interactive</b> · try it</div>
+          <div class="calc-wrap">
+            <div class="calc-frame">
+              <div id="calculator"></div>
+              <div class="calc-fallback" id="calcFallback">Interactive graph loads on the live site.</div>
+            </div>
+          </div>
+          <div class="calc-cap">Drag the sliders — watch the curve move. Glyph makes concepts you can touch.</div>
         </div>
       </div>
     </section>
 
-    <!-- Interactive Desmos graph -->
-    <section class="block">
-      <h2 class="section-title">Learning you can touch</h2>
-      <p class="section-sub">Glyph makes concepts interactive. Drag the sliders and watch the curve move.</p>
-      <div class="calc-frame">
-        <div id="calculator"></div>
-        <div class="calc-fallback" id="calcFallback">Interactive graph loads on the live site.</div>
-      </div>
-    </section>
-
-    <section class="features" id="how">
+    <section class="features">
       <div class="feat"><h3>Write by hand</h3><p>Natural Apple Pencil notes. Glyph actually reads your handwriting.</p></div>
       <div class="feat"><h3>Circle to learn</h3><p>Circle any question and Glyph works through it with you, in your own hand.</p></div>
       <div class="feat"><h3>Your own tutor</h3><p>Worksheets, flashcards, and practice built from the notes you already wrote.</p></div>
@@ -197,7 +196,6 @@
     <footer>Glyph · Built by <a href="#">Vaibhav</a> &amp; <a href="#">Sudeep</a> · 2026</footer>
   </div>
 
-<!-- Desmos API -->
 <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=0ed830c0f07d477f9c584f01dd852498"></script>
 <script>
   /* ---------- Handwriting headline ---------- */
@@ -228,9 +226,9 @@
     sound.addEventListener('click',()=>{ video.muted=!video.muted; sound.textContent=video.muted?'🔇':'🔊'; if(video.paused) video.play().catch(()=>{}); });
   })();
 
-  /* ---------- Desmos interactive graph ---------- */
+  /* ---------- Desmos ---------- */
   (function(){
-    if (typeof Desmos === 'undefined') return;   // fallback message stays (e.g., in preview)
+    if (typeof Desmos === 'undefined') return;
     document.getElementById('calcFallback').style.display='none';
     const calc = Desmos.GraphingCalculator(document.getElementById('calculator'), {
       keypad:false, expressionsCollapsed:false, settingsMenu:false, lockViewport:false, border:false
@@ -240,8 +238,7 @@
     calc.setExpression({ id:'f', latex:'y=a\\sin(kx)', color:(Desmos.Colors && Desmos.Colors.BROWN) || '#A8905C' });
   })();
 
-  /* ---------- Waitlist form (stored in Google Sheets via Apps Script) ---------- */
-  // Paste the Web App URL you get after deploying the Apps Script (see apps-script/Code.gs).
+  /* ---------- Waitlist form -> Google Sheets ---------- */
   const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL";
   const configured = !SCRIPT_URL.startsWith("PASTE_");
   const form=document.getElementById("waitform"), emailEl=document.getElementById("email"),
@@ -253,7 +250,6 @@
     btn.disabled=true; btn.textContent="Joining...";
     if(!configured){ console.warn("Apps Script URL not set — demo mode."); setTimeout(()=>done(),500); return; }
     try{
-      // no-cors: the write succeeds but the response is opaque, so we assume success.
       await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",
         headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
         body:"email="+encodeURIComponent(email)});
