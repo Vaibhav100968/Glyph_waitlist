@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Glyph — The classroom that lives inside your notebook</title>
-<meta name="description" content="Glyph turns your handwritten notes into an AI tutor. Join the waitlist." />
+<meta name="description" content="Write by hand. Glyph reads your notes, builds practice from them, and works problems through with you in your own handwriting." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
@@ -18,13 +18,11 @@
   html{scroll-behavior:smooth}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-    color:var(--ink);
-    background:var(--bg);
-    background-image:radial-gradient(var(--dots) 1.3px, transparent 1.3px);
-    background-size:26px 26px;
+    color:var(--ink);background:var(--bg);
+    background-image:radial-gradient(var(--dots) 1.3px, transparent 1.3px);background-size:26px 26px;
     line-height:1.55;-webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px}
 
   nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
   .logo{font-weight:700;font-size:21px;letter-spacing:.2px;display:flex;align-items:center;gap:11px;font-family:Georgia,serif}
@@ -33,28 +31,28 @@
   .btn{padding:11px 20px;font-size:14px;font-weight:600;color:#1a1610;background:var(--accent);border:none;border-radius:10px;cursor:pointer;text-decoration:none;transition:background .15s}
   .btn:hover{background:#d4ba7c}
 
-  /* ---- Hero grid ---- */
-  .hero{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;padding:36px 0 30px}
-  .eyebrow{font-size:12px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);margin-bottom:22px;display:flex;align-items:center;gap:8px}
+  /* ---- Hero ---- */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding:44px 0 48px}
+  .eyebrow{font-size:12px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px}
   .eyebrow .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 
-  h1{font-family:'Caveat','Bradley Hand','Segoe Script',cursive;font-weight:700;font-size:44px;line-height:1.08;letter-spacing:0;color:var(--ink)}
+  h1{font-family:'Caveat','Bradley Hand','Segoe Script',cursive;font-weight:700;font-size:40px;line-height:1.1;letter-spacing:0;color:var(--ink)}
   h1 .hl{color:var(--accent)}
   .wline{display:block;white-space:nowrap;position:relative}
-  .wtext{display:inline-block;white-space:nowrap;overflow:hidden;vertical-align:bottom;max-width:100%}
-  .pen{display:inline-block;width:26px;height:26px;margin-left:-4px;vertical-align:-6px;opacity:0;pointer-events:none}
+  .wtext{display:inline-block;white-space:nowrap;overflow:hidden;vertical-align:bottom}
+  .pen{display:inline-block;width:24px;height:24px;margin-left:-4px;vertical-align:-6px;opacity:0;pointer-events:none}
   .pen path{fill:var(--accent)}
-  .headline-underline{display:block;width:min(390px,92%);height:18px;margin:4px 0 0}
+  .headline-underline{display:block;width:min(360px,92%);height:16px;margin:4px 0 0}
   .headline-underline path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round}
   @media (prefers-reduced-motion: no-preference){
     .headline-underline path{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.1s ease forwards 2.15s}
     @keyframes drawline{to{stroke-dashoffset:0}}
   }
 
-  .sub{font-size:17px;color:var(--muted);max-width:480px;margin:22px 0 0}
+  .sub{font-size:17px;color:var(--muted);max-width:470px;margin:20px 0 0}
   .sub b{color:var(--ink)}
 
-  form{display:flex;gap:10px;max-width:440px;margin:28px 0 0}
+  form{display:flex;gap:10px;max-width:440px;margin:26px 0 0}
   input[type=email]{flex:1;padding:14px 16px;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--border);border-radius:11px;outline:none}
   input[type=email]::placeholder{color:var(--faint)}
   input[type=email]:focus{border-color:var(--accent)}
@@ -68,20 +66,8 @@
   .msg.ok{color:var(--accent)}
   .msg.err{color:#d98a63}
 
-  /* ---- Demo video (left, under form) ---- */
-  .video-block{margin-top:32px;max-width:380px}
-  .block-label{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
-  .video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:var(--bg2);border:1px solid var(--border);box-shadow:0 24px 60px -30px rgba(0,0,0,.8)}
-  .video-frame video,.video-frame iframe{width:100%;height:100%;border:0;display:block;object-fit:cover;cursor:pointer}
-  .video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--faint);
-    background:radial-gradient(var(--dots) 1.3px,transparent 1.3px) 0 0/20px 20px,linear-gradient(180deg,#1f1b15,#171410)}
-  .play{width:60px;height:60px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px -6px rgba(196,169,106,.5)}
-  .play:after{content:"";border-left:18px solid #1a1610;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:4px}
-  .sound-btn{position:absolute;bottom:12px;right:12px;z-index:3;display:none;width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;background:rgba(0,0,0,.55);color:#fff;font-size:15px;line-height:38px;padding:0}
-  .sound-btn:hover{background:rgba(0,0,0,.8)}
-
-  /* ---- Integration card (right) with gradient border ---- */
-  .integration{position:sticky;top:24px;align-self:start;border-radius:22px;padding:1.5px;
+  /* ---- Interactive card (right) ---- */
+  .integration{border-radius:22px;padding:1.5px;
     background:linear-gradient(150deg,rgba(196,169,106,.6),rgba(196,169,106,.06) 45%,rgba(243,238,228,.10));
     box-shadow:0 40px 100px -50px rgba(0,0,0,.9)}
   .integration-inner{border-radius:20px;background:var(--card);overflow:hidden}
@@ -89,10 +75,21 @@
   .integration-head .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}
   .integration-head b{color:var(--ink);font-weight:600}
   .calc-wrap{padding:14px}
-  .calc-frame{position:relative;width:100%;height:540px;border-radius:14px;overflow:hidden;background:var(--screen);border:1px solid var(--border)}
+  .calc-frame{position:relative;width:100%;height:500px;border-radius:14px;overflow:hidden;background:var(--screen);border:1px solid var(--border)}
   #calculator{width:100%;height:100%}
   .calc-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#a99;font-size:14px;background:var(--screen)}
   .calc-cap{padding:0 18px 16px;font-size:13px;color:var(--faint);text-align:center}
+
+  /* ---- Full-bleed video ---- */
+  .fullvideo{position:relative;width:100%;height:78vh;min-height:440px;margin-top:8px;background:var(--bg2);overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .fullvideo video,.fullvideo iframe{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;border:0}
+  .fv-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--faint);
+    background:radial-gradient(var(--dots) 1.3px,transparent 1.3px) 0 0/22px 22px,linear-gradient(180deg,#1f1b15,#141110)}
+  .fv-ph .play{width:78px;height:78px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -8px rgba(196,169,106,.5)}
+  .fv-ph .play:after{content:"";border-left:24px solid #1a1610;border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:6px}
+  .fv-ph span{font-size:15px;letter-spacing:.4px}
+  .sound-btn{position:absolute;bottom:22px;right:22px;z-index:3;display:none;width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;background:rgba(0,0,0,.55);color:#fff;font-size:18px;line-height:46px;padding:0}
+  .sound-btn:hover{background:rgba(0,0,0,.8)}
 
   /* ---- Features ---- */
   .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:64px 0 10px}
@@ -111,12 +108,12 @@
     .d1{animation-delay:2.2s}.d2{animation-delay:2.45s}.d3{animation-delay:2.65s}
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   }
-
   @media(max-width:860px){
-    .hero{grid-template-columns:1fr;gap:34px}
-    .integration{position:static}
+    .hero{grid-template-columns:1fr;gap:32px;align-items:start}
     .navmid{display:none}
-    h1{font-size:34px}
+    h1{font-size:36px}
+    .calc-frame{height:420px}
+    .fullvideo{height:56vh}
     .features{grid-template-columns:1fr}
     form{flex-direction:column}
     button.submit{width:100%}
@@ -127,52 +124,34 @@
   <div class="wrap">
     <nav>
       <div class="logo"><span class="mark">G</span> Glyph</div>
-      <div class="navmid">Handwritten notes · Learn by doing</div>
+      <div class="navmid">Write it. Learn it. By hand.</div>
       <a class="btn" href="#join">Join the waitlist</a>
     </nav>
 
     <section class="hero">
-      <!-- LEFT: writing + form + demo video -->
-      <div class="left">
-        <div class="eyebrow"><span class="d"></span> Glyph · your handwriting tutor</div>
+      <!-- LEFT: writing + signup -->
+      <div class="left" id="join">
+        <div class="eyebrow"><span class="d"></span> Glyph · learn by doing</div>
         <h1 id="heroWrite">
           <span class="wline"><span class="wtext"><span class="hl">Glyph</span> — a classroom</span><svg class="pen" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>
           <span class="wline"><span class="wtext">that lives inside your notebook</span><svg class="pen" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>
         </h1>
-        <svg class="headline-underline" viewBox="0 0 600 20" preserveAspectRatio="none" aria-hidden="true">
-          <path pathLength="1" d="M6 12 C 130 3, 250 18, 360 10 S 520 5, 594 13" />
+        <svg class="headline-underline" viewBox="0 0 600 16" preserveAspectRatio="none" aria-hidden="true">
+          <path pathLength="1" d="M6 10 C 130 2, 250 15, 360 8 S 520 4, 594 11" />
         </svg>
 
-        <p class="sub fade d1">Write your notes by hand. Glyph reads them, teaches from them, and answers in your own handwriting. An AI tutor that makes you <b>learn, not skip</b>.</p>
+        <p class="sub fade d1">Write your notes by hand. Glyph reads what you wrote, turns it into practice, and works problems through with you — <b>in your own handwriting</b>. You do the thinking; it just makes sure you actually learn it.</p>
 
         <form id="waitform" class="fade d2">
           <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" />
           <button type="submit" class="submit" id="submitBtn">Join the waitlist</button>
         </form>
-        <a class="watch fade d3" href="#video">▶  Watch the 1-minute demo</a>
+        <a class="watch fade d3" href="#video">▶  Watch the full demo</a>
         <div class="msg" id="msg" role="status" aria-live="polite"></div>
         <div class="note fade d3">Any email works. No spam, just one message when we launch.</div>
-
-        <div class="video-block" id="video">
-          <div class="block-label">See it in action</div>
-          <div class="video-frame">
-            <!--
-              ADD YOUR DEMO VIDEO: uncomment <source> and drop demo.mp4 here.
-              Autoplays muted; click pauses; speaker button unmutes. YouTube: swap in an <iframe>.
-            -->
-            <video id="demoVideo" autoplay muted loop playsinline preload="metadata" poster="demo-poster.jpg" style="display:none">
-              <!-- <source src="demo.mp4" type="video/mp4" /> -->
-            </video>
-            <button class="sound-btn" id="soundBtn" aria-label="Unmute">🔇</button>
-            <div class="video-placeholder" id="videoPlaceholder">
-              <div class="play" aria-hidden="true"></div>
-              <span>Demo video coming soon</span>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <!-- RIGHT: Desmos integration in a bordered card -->
+      <!-- RIGHT: interactive -->
       <div class="integration">
         <div class="integration-inner">
           <div class="integration-head"><span class="d"></span> <b>Interactive</b> · try it</div>
@@ -186,21 +165,40 @@
         </div>
       </div>
     </section>
+  </div>
 
+  <!-- FULL-WIDTH VIDEO -->
+  <section class="fullvideo" id="video">
+    <!--
+      ADD YOUR DEMO VIDEO: uncomment <source> and drop demo.mp4 in this folder.
+      Autoplays muted on load; click pauses/resumes; the speaker button unmutes.
+      For YouTube instead, replace the <video> with an <iframe>.
+    -->
+    <video id="demoVideo" autoplay muted loop playsinline preload="metadata" poster="demo-poster.jpg" style="display:none">
+      <!-- <source src="demo.mp4" type="video/mp4" /> -->
+    </video>
+    <button class="sound-btn" id="soundBtn" aria-label="Unmute">🔇</button>
+    <div class="fv-ph" id="videoPlaceholder">
+      <div class="play" aria-hidden="true"></div>
+      <span>Demo video coming soon — scroll-through walkthrough of Glyph</span>
+    </div>
+  </section>
+
+  <div class="wrap">
     <section class="features">
-      <div class="feat"><h3>Write by hand</h3><p>Natural Apple Pencil notes. Glyph actually reads your handwriting.</p></div>
-      <div class="feat"><h3>Circle to learn</h3><p>Circle any question and Glyph works through it with you, in your own hand.</p></div>
-      <div class="feat"><h3>Your own tutor</h3><p>Worksheets, flashcards, and practice built from the notes you already wrote.</p></div>
+      <div class="feat"><h3>Write by hand</h3><p>Natural Apple Pencil notes. Glyph reads your actual handwriting.</p></div>
+      <div class="feat"><h3>Circle to work it out</h3><p>Circle any question and Glyph works through it with you, step by step, in your own hand.</p></div>
+      <div class="feat"><h3>Practice from your notes</h3><p>Worksheets, flashcards, and quizzes built from what you already wrote.</p></div>
     </section>
 
-    <p class="mission"><b>Learning is the single greatest superpower.</b> Glyph is built by two students who got tired of AI that hands you answers and skips the part where you actually understand.</p>
+    <p class="mission"><b>Learning is the single greatest superpower.</b> Glyph is built by two students who got tired of tools that hand you the answer and skip the part where you actually understand.</p>
 
     <footer>Glyph · Built by <a href="#">Vaibhav</a> &amp; <a href="#">Sudeep</a> · 2026</footer>
   </div>
 
 <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=0ed830c0f07d477f9c584f01dd852498"></script>
 <script>
-  /* ---------- Handwriting headline ---------- */
+  /* ---------- Handwriting headline (measure after the cursive font loads) ---------- */
   (function(){
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce || !('animate' in Element.prototype)) return;
@@ -223,11 +221,13 @@
         delay += DUR;
       });
     }
-    requestAnimationFrame(write);
+    // Wait for the cursive font so widths are measured correctly (fixes clipped title).
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=>requestAnimationFrame(write));
+    else requestAnimationFrame(write);
     let t; window.addEventListener('resize', () => { clearTimeout(t); t=setTimeout(()=>lines.forEach(l=>l.querySelector('.wtext').style.width='auto'),150); });
   })();
 
-  /* ---------- Demo video ---------- */
+  /* ---------- Full-width video ---------- */
   (function(){
     const video=document.getElementById('demoVideo'), ph=document.getElementById('videoPlaceholder'), sound=document.getElementById('soundBtn');
     if(!video.querySelector('source[src]')) return;
