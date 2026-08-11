@@ -229,8 +229,10 @@
     calc.setExpression({ id:'f', latex:'y=a\\sin(kx)', color:(Desmos.Colors && Desmos.Colors.BROWN) || '#A8905C' });
   })();
 
-  /* ---------- Waitlist form (posts to MongoDB via /api/join) ---------- */
-  const DEMO = location.protocol === 'file:';   // opened directly -> simulate success
+  /* ---------- Waitlist form (stored in Google Sheets via Apps Script) ---------- */
+  // Paste the Web App URL you get after deploying the Apps Script (see apps-script/Code.gs).
+  const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL";
+  const configured = !SCRIPT_URL.startsWith("PASTE_");
   const form=document.getElementById("waitform"), emailEl=document.getElementById("email"),
         msg=document.getElementById("msg"), btn=document.getElementById("submitBtn");
   form.addEventListener("submit", async (e)=>{
@@ -238,10 +240,12 @@
     const email=emailEl.value.trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ show("Please enter a valid email.","err"); return; }
     btn.disabled=true; btn.textContent="Joining...";
-    if(DEMO){ console.warn("Demo mode (opened as a local file). Deploy to store emails."); setTimeout(()=>done(),500); return; }
+    if(!configured){ console.warn("Apps Script URL not set — demo mode."); setTimeout(()=>done(),500); return; }
     try{
-      const res=await fetch("/api/join",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ email })});
-      if(!res.ok) throw new Error(await res.text());
+      // no-cors: the write succeeds but the response is opaque, so we assume success.
+      await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",
+        headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+        body:"email="+encodeURIComponent(email)});
       done();
     }catch(err){ console.error(err); show("Something went wrong. Try again in a sec.","err"); btn.disabled=false; btn.textContent="Join the waitlist"; }
   });

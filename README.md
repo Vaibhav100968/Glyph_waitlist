@@ -1,32 +1,29 @@
 # Glyph — Waitlist Site
 
 Single-page waitlist landing page for **Glyph**, the classroom that lives inside your notebook.
+Static site (HTML/CSS/JS) — runs on GitHub Pages. Emails are stored in a Google Sheet.
 
 ## Features
 - Handwriting headline animation (a pencil writes the tagline on load)
 - Demo video slot (autoplays muted, click to pause, unmute button)
 - Interactive Desmos graph
-- Email capture stored in **MongoDB** via a serverless function
+- Email capture stored in a **Google Sheet** (via Apps Script)
 
-## How the email capture works
-MongoDB cannot be called safely from the browser, so emails are submitted to a
-serverless function at `api/join.js`. The frontend `POST`s `{ email }` to
-`/api/join`; the function inserts it into MongoDB. The connection string is a
-secret env var and is never sent to the browser.
+## Set up email capture (Google Sheets, free)
+1. Create a Google Sheet. Row 1 headers: `A1 = Timestamp`, `B1 = Email`.
+2. **Extensions → Apps Script**, paste the contents of `apps-script/Code.gs`.
+3. **Deploy → New deployment → Web app**:
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+   Copy the **Web app URL**.
+4. In `index.html`, set `SCRIPT_URL` to that URL.
+5. Commit + push. Emails now land in your sheet (duplicates are ignored).
 
-## Setup / deploy (Vercel)
-1. Import this repo into **Vercel** (vercel.com/new). Because there is an `api/`
-   folder, Vercel automatically runs `api/join.js` as a serverless function.
-2. In **Vercel → Project → Settings → Environment Variables**, add:
-   - `MONGODB_URI` = your MongoDB Atlas connection string
-   - `MONGODB_DB` = `glyph` (optional; defaults to `glyph`)
-   The function writes to the `waitlist` collection.
-3. In **MongoDB Atlas → Network Access**, allow Vercel (add `0.0.0.0/0` or
-   Vercel's IPs) so the function can connect.
-4. Deploy. Emails land in `glyph.waitlist`.
-
-> Note: this needs Vercel (or Netlify Functions) — plain static hosting like
-> GitHub Pages can't run the serverless function.
+## Deploy on GitHub Pages (free)
+1. Make the repo **public**.
+2. **Settings → Pages → Build and deployment → Source: Deploy from a branch**.
+3. Branch: `main`, folder: `/ (root)` → **Save**.
+4. Live in ~1 min at `https://<user>.github.io/Glyph_waitlist/`.
 
 ## Other keys
 - **Desmos** — the interactive graph uses a Desmos API key in the `<script src>`
@@ -35,5 +32,5 @@ secret env var and is never sent to the browser.
   line (or replace the `<video>` with a YouTube `<iframe>`).
 
 ## Run locally
-Opening `index.html` directly runs the form in demo mode (no email is stored).
-To test the real MongoDB flow, run `vercel dev` with `MONGODB_URI` set.
+Open `index.html` in a browser. Without a `SCRIPT_URL` set, the form runs in
+demo mode (no email stored).
