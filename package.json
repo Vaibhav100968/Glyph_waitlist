@@ -1,0 +1,9 @@
+{
+  "name": "glyph-waitlist",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Waitlist landing page for Glyph",
+  "dependencies": {
+    "mongodb": "^6.3.0"
+  }
+}

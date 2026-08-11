@@ -23,7 +23,6 @@
     -webkit-font-smoothing:antialiased;
   }
   .serif{font-family:Georgia,"Times New Roman",serif}
-  .hand{font-family:"Bradley Hand","Segoe Print","Comic Sans MS",cursive}
   .wrap{max-width:760px;margin:0 auto;padding:0 24px}
 
   nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
@@ -68,21 +67,8 @@
   .msg.err{color:#b0603c}
 
   .section-title{font-family:Georgia,serif;font-size:26px;text-align:center;margin-bottom:8px}
-  .section-sub{text-align:center;color:var(--muted);font-size:15px;margin-bottom:26px;max-width:520px;margin-left:auto;margin-right:auto}
+  .section-sub{text-align:center;color:var(--muted);font-size:15px;margin:0 auto 26px;max-width:520px}
   section.block{padding:44px 0 8px}
-
-  /* ---- Notebook mockup ---- */
-  .notebook{
-    position:relative;max-width:560px;margin:0 auto;background:var(--card);
-    border:1px solid var(--border);border-radius:18px;padding:34px 34px 34px 70px;
-    background-image:radial-gradient(var(--dots) 1.3px, transparent 1.3px);
-    background-size:22px 22px;box-shadow:0 18px 50px -22px rgba(44,36,24,.35);
-  }
-  .notebook:before{content:"";position:absolute;left:48px;top:18px;bottom:18px;width:2px;background:rgba(168,144,92,.28)}
-  .np-q{position:relative;display:inline-block;font-size:27px;color:var(--ink);margin:6px 0 26px}
-  .circle-svg{position:absolute;left:-16px;top:-12px;width:calc(100% + 34px);height:calc(100% + 26px);overflow:visible;pointer-events:none}
-  .np-work{font-size:26px;color:var(--accent);margin:2px 0;opacity:.92}
-  .np-caption{text-align:center;color:var(--muted);font-size:14px;margin-top:22px}
 
   /* ---- Demo video ---- */
   .video-frame{
@@ -128,7 +114,6 @@
     form{flex-direction:column}
     button{width:100%}
     .navlinks a:first-child{display:none}
-    .np-q{font-size:22px}.np-work{font-size:21px}
   }
 </style>
 </head>
@@ -158,22 +143,6 @@
       <div class="note fade d3">Any email works. No spam, just one message when we launch.</div>
     </header>
 
-    <!-- Notebook product mockup -->
-    <section class="block" id="how">
-      <h2 class="section-title">Circle it. Learn it.</h2>
-      <p class="section-sub">You circle the question. Glyph works it out in your own handwriting, then quizzes you until it sticks.</p>
-      <div class="notebook">
-        <div class="np-q hand">2x + 6 = 14
-          <svg class="circle-svg" viewBox="0 0 320 80" preserveAspectRatio="none">
-            <path d="M18,42 C14,14 300,8 306,38 C311,64 60,74 22,50 C6,40 40,20 90,16" fill="none" stroke="#A8905C" stroke-width="2.6" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="np-work hand">2x = 8</div>
-        <div class="np-work hand">x = 4</div>
-      </div>
-      <p class="np-caption">The answer is written in <em>your</em> hand — a toggle you can shut off anytime.</p>
-    </section>
-
     <!-- Demo video -->
     <section class="block" id="demo">
       <h2 class="section-title">See it in action</h2>
@@ -198,14 +167,14 @@
     <!-- Interactive Desmos graph -->
     <section class="block">
       <h2 class="section-title">Learning you can touch</h2>
-      <p class="section-sub">Glyph makes concepts interactive. Drag the slider and watch the curve move.</p>
+      <p class="section-sub">Glyph makes concepts interactive. Drag the sliders and watch the curve move.</p>
       <div class="calc-frame">
         <div id="calculator"></div>
         <div class="calc-fallback" id="calcFallback">Interactive graph loads on the live site.</div>
       </div>
     </section>
 
-    <section class="features">
+    <section class="features" id="how">
       <div class="feat"><h3>Write by hand</h3><p>Natural Apple Pencil notes. Glyph actually reads your handwriting.</p></div>
       <div class="feat"><h3>Circle to learn</h3><p>Circle any question and Glyph works through it with you, in your own hand.</p></div>
       <div class="feat"><h3>Your own tutor</h3><p>Worksheets, flashcards, and practice built from the notes you already wrote.</p></div>
@@ -216,8 +185,8 @@
     <footer>Glyph · Built by <a href="#">Vaibhav</a> &amp; <a href="#">Sudeep</a> · 2026</footer>
   </div>
 
-<!-- Desmos API (needs the live site + your own free API key from desmos.com/api) -->
-<script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+<!-- Desmos API -->
+<script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=0ed830c0f07d477f9c584f01dd852498"></script>
 <script>
   /* ---------- Handwriting headline ---------- */
   (function(){
@@ -257,27 +226,22 @@
     });
     calc.setExpression({ id:'a', latex:'a=2', sliderBounds:{min:-4,max:4,step:0.1} });
     calc.setExpression({ id:'k', latex:'k=1', sliderBounds:{min:0.5,max:3,step:0.1} });
-    calc.setExpression({ id:'f', latex:'y=a\\sin(kx)', color:Desmos.Colors.BROWN || '#A8905C' });
+    calc.setExpression({ id:'f', latex:'y=a\\sin(kx)', color:(Desmos.Colors && Desmos.Colors.BROWN) || '#A8905C' });
   })();
 
-  /* ---------- Waitlist form ---------- */
-  const SUPABASE_URL = "YOUR_SUPABASE_URL";
-  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-  const TABLE = "waitlist";
+  /* ---------- Waitlist form (posts to MongoDB via /api/join) ---------- */
+  const DEMO = location.protocol === 'file:';   // opened directly -> simulate success
   const form=document.getElementById("waitform"), emailEl=document.getElementById("email"),
-        msg=document.getElementById("msg"), btn=document.getElementById("submitBtn"),
-        configured=!SUPABASE_URL.startsWith("YOUR_");
+        msg=document.getElementById("msg"), btn=document.getElementById("submitBtn");
   form.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const email=emailEl.value.trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ show("Please enter a valid email.","err"); return; }
     btn.disabled=true; btn.textContent="Joining...";
-    if(!configured){ console.warn("Supabase not configured — demo mode."); setTimeout(()=>done(),500); return; }
+    if(DEMO){ console.warn("Demo mode (opened as a local file). Deploy to store emails."); setTimeout(()=>done(),500); return; }
     try{
-      const res=await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`,{method:"POST",
-        headers:{ "apikey":SUPABASE_ANON_KEY,"Authorization":`Bearer ${SUPABASE_ANON_KEY}`,"Content-Type":"application/json","Prefer":"return=minimal" },
-        body:JSON.stringify({ email })});
-      if(!res.ok && res.status!==409) throw new Error(await res.text());
+      const res=await fetch("/api/join",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ email })});
+      if(!res.ok) throw new Error(await res.text());
       done();
     }catch(err){ console.error(err); show("Something went wrong. Try again in a sec.","err"); btn.disabled=false; btn.textContent="Join the waitlist"; }
   });
