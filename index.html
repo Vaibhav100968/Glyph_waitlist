@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Glyph — The classroom that lives inside your notebook</title>
 <meta name="description" content="Glyph turns your handwritten notes into an AI tutor. Join the waitlist." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#F5F0E8; --dots:#E0D8CC; --card:#FDFCFA; --ink:#2C2418;
@@ -39,11 +42,17 @@
     padding:6px 14px;border-radius:999px;margin-bottom:26px;
   }
 
-  h1{font-family:Georgia,serif;font-weight:700;font-size:44px;line-height:1.16;letter-spacing:-.5px}
+  h1{font-family:'Caveat','Bradley Hand','Segoe Script',cursive;font-weight:700;font-size:62px;line-height:1.06;letter-spacing:0}
   h1 .hl{color:var(--accent)}
   .wline{display:block;white-space:nowrap}
   .wtext{display:inline-block;white-space:nowrap;overflow:hidden;vertical-align:bottom;max-width:100%}
-  .wpen{display:inline-block;margin-left:2px;font-size:.55em;transform:rotate(-32deg);transform-origin:bottom left}
+  /* hand-drawn underline that draws itself (native equivalent of framer-motion pathLength) */
+  .headline-underline{display:block;width:min(540px,92%);height:22px;margin:2px auto 0}
+  .headline-underline path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round}
+  @media (prefers-reduced-motion: no-preference){
+    .headline-underline path{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.1s ease forwards 2.15s}
+    @keyframes drawline{to{stroke-dashoffset:0}}
+  }
 
   .sub{font-size:18px;color:var(--muted);max-width:520px;margin:22px auto 0}
 
@@ -109,7 +118,7 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   }
   @media(max-width:640px){
-    h1{font-size:30px}
+    h1{font-size:42px}
     .features{grid-template-columns:1fr}
     form{flex-direction:column}
     button{width:100%}
@@ -129,10 +138,13 @@
 
     <header>
       <span class="eyebrow">Coming 2026 · iPad</span>
-      <h1 class="serif" id="heroWrite">
-        <span class="wline"><span class="wtext"><span class="hl">Glyph</span> — a classroom</span><span class="wpen">✏️</span></span>
-        <span class="wline"><span class="wtext">that lives inside your notebook</span><span class="wpen">✏️</span></span>
+      <h1 id="heroWrite">
+        <span class="wline"><span class="wtext"><span class="hl">Glyph</span> — a classroom</span></span>
+        <span class="wline"><span class="wtext">that lives inside your notebook</span></span>
       </h1>
+      <svg class="headline-underline" viewBox="0 0 600 22" preserveAspectRatio="none" aria-hidden="true">
+        <path pathLength="1" d="M6 13 C 130 3, 250 20, 360 11 S 520 5, 594 14" />
+      </svg>
       <p class="sub fade d1">Write your notes by hand. Glyph reads them, teaches from them, and answers in your own handwriting. An AI tutor that makes you learn, not skip.</p>
       <form id="waitform" class="fade d2">
         <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" />
@@ -197,10 +209,9 @@
     function write(){
       let delay = 0;
       lines.forEach(line => {
-        const text = line.querySelector('.wtext'), pen = line.querySelector('.wpen');
-        text.style.width = '0px'; const full = text.scrollWidth; pen.style.opacity = '0';
+        const text = line.querySelector('.wtext');
+        text.style.width = '0px'; const full = text.scrollWidth;
         text.animate([{width:'0px'},{width:full+'px'}],{duration:DUR,delay:delay,easing:'cubic-bezier(.6,.02,.2,1)',fill:'forwards'});
-        pen.animate([{opacity:1,transform:'rotate(-32deg) translateY(0)'},{opacity:1,transform:'rotate(-32deg) translateY(-2px)',offset:.5},{opacity:1,offset:.9},{opacity:0}],{duration:DUR,delay:delay,fill:'forwards'});
         delay += DUR;
       });
     }
