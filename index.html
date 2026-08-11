@@ -34,14 +34,16 @@
   .btn:hover{background:#d4ba7c}
 
   /* ---- Hero grid ---- */
-  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start;padding:40px 0 30px}
+  .hero{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start;padding:40px 0 30px}
   .eyebrow{font-size:12px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);margin-bottom:22px;display:flex;align-items:center;gap:8px}
   .eyebrow .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 
   h1{font-family:'Caveat','Bradley Hand','Segoe Script',cursive;font-weight:700;font-size:58px;line-height:1.02;letter-spacing:0;color:var(--ink)}
   h1 .hl{color:var(--accent)}
-  .wline{display:block;white-space:nowrap}
+  .wline{display:block;white-space:nowrap;position:relative}
   .wtext{display:inline-block;white-space:nowrap;overflow:hidden;vertical-align:bottom;max-width:100%}
+  .pen{display:inline-block;width:26px;height:26px;margin-left:-4px;vertical-align:-6px;opacity:0;pointer-events:none}
+  .pen path{fill:var(--accent)}
   .headline-underline{display:block;width:min(460px,96%);height:20px;margin:4px 0 0}
   .headline-underline path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round}
   @media (prefers-reduced-motion: no-preference){
@@ -67,7 +69,7 @@
   .msg.err{color:#d98a63}
 
   /* ---- Demo video (left, under form) ---- */
-  .video-block{margin-top:38px}
+  .video-block{margin-top:38px;max-width:400px}
   .block-label{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
   .video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:var(--bg2);border:1px solid var(--border);box-shadow:0 24px 60px -30px rgba(0,0,0,.8)}
   .video-frame video,.video-frame iframe{width:100%;height:100%;border:0;display:block;object-fit:cover;cursor:pointer}
@@ -87,7 +89,7 @@
   .integration-head .d{width:8px;height:8px;border-radius:50%;background:var(--accent)}
   .integration-head b{color:var(--ink);font-weight:600}
   .calc-wrap{padding:14px}
-  .calc-frame{position:relative;width:100%;height:440px;border-radius:14px;overflow:hidden;background:var(--screen);border:1px solid var(--border)}
+  .calc-frame{position:relative;width:100%;height:580px;border-radius:14px;overflow:hidden;background:var(--screen);border:1px solid var(--border)}
   #calculator{width:100%;height:100%}
   .calc-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#a99;font-size:14px;background:var(--screen)}
   .calc-cap{padding:0 18px 16px;font-size:13px;color:var(--faint);text-align:center}
@@ -134,8 +136,8 @@
       <div class="left">
         <div class="eyebrow"><span class="d"></span> Glyph · your handwriting tutor</div>
         <h1 id="heroWrite">
-          <span class="wline"><span class="wtext"><span class="hl">Glyph</span> — a classroom</span></span>
-          <span class="wline"><span class="wtext">that lives inside your notebook</span></span>
+          <span class="wline"><span class="wtext"><span class="hl">Glyph</span> — a classroom</span><svg class="pen" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>
+          <span class="wline"><span class="wtext">that lives inside your notebook</span><svg class="pen" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span>
         </h1>
         <svg class="headline-underline" viewBox="0 0 600 20" preserveAspectRatio="none" aria-hidden="true">
           <path pathLength="1" d="M6 12 C 130 3, 250 18, 360 10 S 520 5, 594 13" />
@@ -207,9 +209,17 @@
     function write(){
       let delay = 0;
       lines.forEach(line => {
-        const text = line.querySelector('.wtext');
+        const text = line.querySelector('.wtext'), pen = line.querySelector('.pen');
         text.style.width = '0px'; const full = text.scrollWidth;
         text.animate([{width:'0px'},{width:full+'px'}],{duration:DUR,delay:delay,easing:'cubic-bezier(.6,.02,.2,1)',fill:'forwards'});
+        if(pen) pen.animate([
+          {opacity:0,transform:'translateY(2px)'},
+          {opacity:1,transform:'translateY(0)',offset:.06},
+          {opacity:1,transform:'translateY(-2px) rotate(-4deg)',offset:.4},
+          {opacity:1,transform:'translateY(1px) rotate(0deg)',offset:.7},
+          {opacity:1,transform:'translateY(-2px) rotate(-3deg)',offset:.88},
+          {opacity:0,transform:'translateY(-12px) rotate(2deg)',offset:1}
+        ],{duration:DUR,delay:delay,easing:'linear',fill:'forwards'});
         delay += DUR;
       });
     }
