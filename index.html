@@ -76,25 +76,33 @@
   .integration-head b{color:var(--ink);font-weight:600}
   .calc-cap{padding:2px 18px 16px;font-size:13px;color:var(--faint);text-align:center}
   /* ---- Level-up game ---- */
-  .game{padding:22px 20px 16px;min-height:412px;display:flex;flex-direction:column}
+  .game{position:relative;padding:22px 20px 16px;min-height:436px;display:flex;flex-direction:column;overflow:hidden}
   .game-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
   .lvl-badge{font-weight:700;font-size:15px;color:var(--ink)}
   .lvl-badge span{color:var(--accent)}
-  .streak{font-size:13px;color:var(--muted)}
-  .xpbar{height:10px;border-radius:6px;background:#2a251c;overflow:hidden;border:1px solid var(--border)}
-  .xpfill{height:100%;width:0;background:linear-gradient(90deg,#A8905C,#E6CE92);border-radius:6px;transition:width .5s cubic-bezier(.4,0,.2,1)}
-  .q{font-family:Georgia,serif;font-size:42px;text-align:center;margin:36px 0 26px;color:var(--ink)}
+  .coins{font-size:16px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px;transition:transform .15s}
+  .coins.bump{transform:scale(1.2)}
+  .xpbar{height:12px;border-radius:7px;background:#2a251c;overflow:hidden;border:1px solid var(--border)}
+  .xpfill{height:100%;width:0;background:linear-gradient(90deg,#A8905C,#E6CE92);border-radius:7px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+  .xp-label{font-size:11px;letter-spacing:.5px;color:var(--faint);margin-top:6px;text-align:right}
+  .q{font-family:Georgia,serif;font-size:44px;text-align:center;margin:28px 0 24px;color:var(--ink)}
   .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .opt{padding:16px;font-size:20px;font-weight:600;color:var(--ink);background:var(--bg2);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:transform .08s,border-color .15s,background .15s}
-  .opt:hover{border-color:var(--accent);transform:translateY(-1px)}
-  .opt.correct{background:rgba(196,169,106,.22);border-color:var(--accent);color:var(--accent)}
+  .opt{padding:18px;font-size:21px;font-weight:700;color:var(--ink);background:var(--bg2);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:transform .1s,border-color .15s,background .15s}
+  .opt:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .opt:active{transform:scale(.97)}
+  .opt.correct{background:rgba(196,169,106,.25);border-color:var(--accent);color:var(--accent);animation:pop .3s}
   .opt.wrong{background:rgba(217,138,99,.15);border-color:#d98a63;color:#d98a63;animation:shake .3s}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
   @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
   .game-msg{margin-top:auto;padding-top:16px;text-align:center;font-size:14px;color:var(--faint);min-height:20px}
-  .game-msg.levelup{color:var(--accent);font-weight:700;font-size:16px}
-  .game.flash .integration-inner{box-shadow:0 0 0 3px rgba(196,169,106,.5) inset}
-  .game.flash{animation:cardflash .6s}
-  @keyframes cardflash{0%{box-shadow:0 0 0 0 rgba(196,169,106,0)}30%{box-shadow:inset 0 0 40px -6px rgba(196,169,106,.5)}100%{box-shadow:0 0 0 0 rgba(196,169,106,0)}}
+  .game-msg.good{color:var(--accent);font-weight:600}
+  .combo{color:#E6CE92;font-weight:700}
+  .float{position:absolute;font-weight:700;font-size:16px;color:var(--accent);pointer-events:none;z-index:4}
+  .levelup-badge{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(.4);opacity:0;z-index:5;font-family:Georgia,serif;font-weight:700;font-size:34px;color:var(--accent);text-shadow:0 4px 24px rgba(196,169,106,.6);pointer-events:none;letter-spacing:1px}
+  .levelup-badge.show{animation:luPop 1.2s ease forwards}
+  @keyframes luPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}22%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}70%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-64%) scale(1)}}
+  .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+  .confetti i{position:absolute;width:8px;height:8px;border-radius:2px;opacity:0}
 
   /* ---- Full-bleed video ---- */
   .fullvideo{position:relative;width:100%;height:78vh;min-height:440px;margin-top:8px;background:var(--bg2);overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -172,14 +180,17 @@
         <div class="integration-inner">
           <div class="integration-head"><span class="d"></span> <b>Practice</b> · level up</div>
           <div class="game" id="game">
+            <div class="confetti" id="gConfetti" aria-hidden="true"></div>
+            <div class="levelup-badge" id="gLevelUp">LEVEL UP!</div>
             <div class="game-top">
               <div class="lvl-badge">Level <span id="gLvl">1</span></div>
-              <div class="streak">🔥 <span id="gStreak">0</span> streak</div>
+              <div class="coins"><span class="coin">🪙</span> <span id="gCoins">0</span></div>
             </div>
             <div class="xpbar"><div class="xpfill" id="gXp"></div></div>
-            <div class="q" id="gQ">3 + 4 = ?</div>
+            <div class="xp-label" id="gXpLabel">0 / 100 XP</div>
+            <div class="q" id="gQ">Loading…</div>
             <div class="opts" id="gOpts"></div>
-            <div class="game-msg" id="gMsg">Answer to earn XP.</div>
+            <div class="game-msg" id="gMsg">Tap an answer to earn coins.</div>
           </div>
           <div class="calc-cap">Answer to earn XP and level up — a taste of how Glyph turns your notes into a game.</div>
         </div>
@@ -258,12 +269,14 @@
   /* ---------- Level-up practice game ---------- */
   (function(){
     const XP_PER=25, XP_MAX=100;
-    let level=1, xp=0, streak=0, answer=null, locked=false;
-    const elLvl=document.getElementById('gLvl'), elStreak=document.getElementById('gStreak'),
-          elXp=document.getElementById('gXp'), elQ=document.getElementById('gQ'),
-          elOpts=document.getElementById('gOpts'), elMsg=document.getElementById('gMsg'),
-          elGame=document.getElementById('game');
+    let level=1, xp=0, streak=0, coins=0, answer=null, locked=false;
+    const $=id=>document.getElementById(id);
+    const elLvl=$('gLvl'), elCoins=$('gCoins'), elXp=$('gXp'), elXpLabel=$('gXpLabel'),
+          elQ=$('gQ'), elOpts=$('gOpts'), elMsg=$('gMsg'), elGame=$('game'),
+          elLU=$('gLevelUp'), elConf=$('gConfetti');
     const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+
+    function updateXp(){ elXp.style.width=(xp/XP_MAX*100)+'%'; elXpLabel.textContent=xp+' / '+XP_MAX+' XP'; }
 
     function makeQ(){
       let a,b,op,ans;
@@ -272,34 +285,59 @@
       else if(level===3){op='+';a=rnd(12,49);b=rnd(12,49);ans=a+b;}
       else if(level===4){op='×';a=rnd(3,12);b=rnd(3,12);ans=a*b;}
       else{op='×';a=rnd(6,15);b=rnd(6,15);ans=a*b;}
-      answer=ans;
-      elQ.textContent=a+' '+op+' '+b+' = ?';
-      const opts=new Set([ans]);
-      while(opts.size<4){ const d=ans+rnd(1,9)*(Math.random()<.5?-1:1); if(d>=0&&d!==ans) opts.add(d); }
-      const arr=[...opts].sort(()=>Math.random()-.5);
+      answer=ans; elQ.textContent=a+' '+op+' '+b+' = ?';
+      const set=new Set([ans]);
+      while(set.size<4){ const d=ans+rnd(1,9)*(Math.random()<.5?-1:1); if(d>=0&&d!==ans) set.add(d); }
+      const arr=[...set].sort(()=>Math.random()-.5);
       elOpts.innerHTML='';
       arr.forEach(v=>{ const btn=document.createElement('button'); btn.className='opt'; btn.textContent=v; btn.onclick=()=>choose(btn,v); elOpts.appendChild(btn); });
     }
+
+    function floatCoins(n){
+      const f=document.createElement('div'); f.className='float'; f.textContent='+'+n+' 🪙';
+      f.style.left=rnd(40,56)+'%'; f.style.top='34%'; elGame.appendChild(f);
+      f.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,offset:.2},{opacity:0,transform:'translateY(-36px)'}],{duration:1000,easing:'ease',fill:'forwards'});
+      setTimeout(()=>f.remove(),1050);
+    }
+    function bumpCoins(){ const c=elCoins.parentElement; c.classList.add('bump'); setTimeout(()=>c.classList.remove('bump'),170); }
+    function confetti(){
+      const colors=['#C4A96A','#E6CE92','#F3EEE4','#A8905C'];
+      for(let i=0;i<20;i++){
+        const p=document.createElement('i'); p.style.background=colors[rnd(0,colors.length-1)]; p.style.left='50%'; p.style.top='42%';
+        const dx=rnd(-130,130), dy=rnd(-100,50), rot=rnd(0,360);
+        p.animate([
+          {opacity:1,transform:'translate(-50%,-50%) rotate(0deg)'},
+          {opacity:1,transform:'translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px)) rotate('+rot+'deg)',offset:.5},
+          {opacity:0,transform:'translate(calc(-50% + '+(dx*1.2)+'px), calc(-50% + '+(dy+130)+'px)) rotate('+(rot+140)+'deg)'}
+        ],{duration:900+rnd(0,400),easing:'cubic-bezier(.2,.6,.3,1)',fill:'forwards'});
+        elConf.appendChild(p); setTimeout(()=>p.remove(),1400);
+      }
+    }
+    function levelUp(){
+      level++; elLvl.textContent=level;
+      elXp.style.width='100%'; setTimeout(()=>{ xp=0; updateXp(); },560);
+      elLU.classList.remove('show'); void elLU.offsetWidth; elLU.classList.add('show');
+      confetti();
+      elMsg.textContent='Level '+level+' unlocked — it gets harder now!'; elMsg.className='game-msg good';
+    }
+
     function choose(btn,v){
       if(locked) return;
       if(v===answer){
-        locked=true; btn.classList.add('correct'); streak++; elStreak.textContent=streak; xp+=XP_PER;
-        if(xp>=XP_MAX){
-          xp=0; level++; elLvl.textContent=level; elXp.style.width='100%';
-          setTimeout(()=>{ elXp.style.width='0%'; },560);
-          elMsg.textContent='Level up! 🎉'; elMsg.className='game-msg levelup';
-          elGame.classList.add('flash'); setTimeout(()=>elGame.classList.remove('flash'),600);
-        } else {
-          elXp.style.width=(xp/XP_MAX*100)+'%'; elMsg.textContent='+'+XP_PER+' XP'; elMsg.className='game-msg';
-        }
-        setTimeout(()=>{ locked=false; makeQ(); },800);
+        locked=true; btn.classList.add('correct'); streak++;
+        const combo = streak>=4?3 : streak>=2?2 : 1;
+        const gained = 5*combo; coins+=gained; elCoins.textContent=coins;
+        bumpCoins(); floatCoins(gained); xp+=XP_PER;
+        if(xp>=XP_MAX){ levelUp(); }
+        else { updateXp(); elMsg.innerHTML = combo>1 ? ('+'+gained+' coins &middot; <span class="combo">'+combo+'&times; combo!</span>') : ('+'+gained+' coins'); elMsg.className='game-msg good'; }
+        setTimeout(()=>{ locked=false; makeQ(); },850);
       } else {
-        btn.classList.add('wrong'); streak=0; elStreak.textContent=streak;
-        elMsg.textContent='Not quite — try again.'; elMsg.className='game-msg';
+        btn.classList.add('wrong'); streak=0;
+        elMsg.textContent='Not quite — combo reset. Try again!'; elMsg.className='game-msg';
         setTimeout(()=>btn.classList.remove('wrong'),350);
       }
     }
-    makeQ();
+    updateXp(); makeQ();
   })();
 
   /* ---------- Waitlist form -> Google Sheets ---------- */
