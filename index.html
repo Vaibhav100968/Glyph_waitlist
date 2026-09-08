@@ -104,6 +104,7 @@
   .logos-track{display:flex;align-items:center;gap:120px;width:max-content}
   .logos-track img{height:72px;width:auto;filter:grayscale(1);opacity:.78;flex:none}
   .logos-track img.wide{height:44px}
+  .logos-track img.seal{height:92px}
   @media (prefers-reduced-motion: no-preference){
     .logos-track{animation:marquee 24s linear infinite}
     @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -112,6 +113,7 @@
     .logos-track{gap:64px}
     .logos-track img{height:52px}
     .logos-track img.wide{height:32px}
+    .logos-track img.seal{height:66px}
   }
 
   /* ---------- toolkit: tabbed feature grid ---------- */
@@ -277,13 +279,13 @@
     <!-- where we come from -->
     <div class="logos" aria-label="Texas A&M University, The University of Texas at Austin, AltaIR Capital">
       <div class="logos-track">
-        <img src="img/logo-tamu.svg" alt="Texas A&M University" />
-        <img src="img/logo-ut.png" alt="The University of Texas at Austin" />
+        <img src="img/logo-tamu.svg" alt="Texas A&M University" class="seal" />
+        <img src="img/logo-ut.png" alt="The University of Texas at Austin" class="seal" />
         <img src="img/logo-altair.png" alt="AltaIR Capital" class="wide" />
         <img src="img/logo-unt.svg" alt="University of North Texas" />
         <img src="img/logo-ycss.svg" alt="Y Combinator Startup School" class="wide" />
-        <img src="img/logo-tamu.svg" alt="" />
-        <img src="img/logo-ut.png" alt="" />
+        <img src="img/logo-tamu.svg" alt="" class="seal" />
+        <img src="img/logo-ut.png" alt="" class="seal" />
         <img src="img/logo-altair.png" alt="" class="wide" />
         <img src="img/logo-unt.svg" alt="" />
         <img src="img/logo-ycss.svg" alt="" class="wide" />
