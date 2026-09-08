@@ -184,13 +184,16 @@
     .card .cardshot img{height:430px}
     .card .cardcopy{min-height:214px}
     .tabbar{justify-content:flex-start}
+    .tabwrap{padding:0 30px;width:100%}
     .tabhint{
-      display:flex;position:absolute;right:4px;top:50%;transform:translateY(-50%);
-      width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;
-      align-items:center;justify-content:center;pointer-events:none;
-      box-shadow:0 3px 10px rgba(28,27,25,.25);transition:opacity .25s ease;
+      display:flex;position:absolute;top:50%;transform:translateY(-50%);
+      width:28px;height:32px;align-items:center;justify-content:center;
+      background:none;border:none;padding:0;cursor:pointer;color:var(--ink);
+      transition:opacity .25s ease;
     }
-    .tabhint.hide{opacity:0}
+    .tabhint-r{right:0}
+    .tabhint-l{left:0}
+    .tabhint.hide{opacity:0;pointer-events:none}
     form{flex-direction:column}
     form .btn{width:100%;text-align:center}
     nav .btn{padding:10px 18px;font-size:14px}
@@ -285,7 +288,7 @@
     <section class="demo">
       <div class="videoframe">
         <video id="demoVideo" autoplay muted loop playsinline preload="metadata">
-          <source src="demo.mp4" type="video/mp4" />
+          <source src="demo.mp4?v=2" type="video/mp4" />
         </video>
         <button class="soundhint" id="soundHint" type="button">🔇 Tap for sound</button>
       </div>
@@ -329,9 +332,12 @@
           <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="3"/><circle cx="11.5" cy="6" r="2.3"/><path d="M0 14c0-2.8 2.2-5 5-5s5 2.2 5 5v1H0zM10.4 9.4a4.6 4.6 0 0 1 5.6 4.5v1h-4.5v-1c0-1.7-.4-3.2-1.1-4.5z"/></svg>
           Together</button>
       </div>
-      <div class="tabhint" aria-hidden="true">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 2l4 4-4 4"/></svg>
-      </div>
+      <button class="tabhint tabhint-l hide" type="button" aria-label="Previous tab">
+        <svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2L4 6l4 4"/></svg>
+      </button>
+      <button class="tabhint tabhint-r" type="button" aria-label="Next tab">
+        <svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2l4 4-4 4"/></svg>
+      </button>
       </div>
 
       <div class="panels">
@@ -496,17 +502,32 @@
     });
   });
 
-  // ---------- tab bar scroll hint (phones) ----------
+  // ---------- tab bar arrows (phones): click steps one tab, hide at the ends ----------
   const tabBarEl = document.querySelector(".tabbar");
-  const tabHintEl = document.querySelector(".tabhint");
-  if (tabBarEl && tabHintEl) {
-    const updateHint = () => {
-      const done = tabBarEl.scrollLeft + tabBarEl.clientWidth >= tabBarEl.scrollWidth - 8;
-      tabHintEl.classList.toggle("hide", done);
+  const tabHintL = document.querySelector(".tabhint-l");
+  const tabHintR = document.querySelector(".tabhint-r");
+  if (tabBarEl && tabHintL && tabHintR) {
+    const updateHints = () => {
+      const max = tabBarEl.scrollWidth - tabBarEl.clientWidth;
+      tabHintL.classList.toggle("hide", tabBarEl.scrollLeft <= 8);
+      tabHintR.classList.toggle("hide", tabBarEl.scrollLeft >= max - 8);
     };
-    tabBarEl.addEventListener("scroll", updateHint, { passive: true });
-    window.addEventListener("resize", updateHint);
-    updateHint();
+    const stepTab = (dir) => {
+      const btns = [...tabBarEl.querySelectorAll(".tabbtn")];
+      const bar = tabBarEl.getBoundingClientRect();
+      const target = dir > 0
+        ? btns.find(b => b.getBoundingClientRect().right > bar.right + 2)
+        : btns.reverse().find(b => b.getBoundingClientRect().left < bar.left - 2);
+      if (!target) return;
+      const t = target.getBoundingClientRect();
+      const delta = dir > 0 ? t.right - bar.right + 34 : t.left - bar.left - 34;
+      tabBarEl.scrollBy({ left: delta, behavior: "smooth" });
+    };
+    tabHintR.addEventListener("click", () => stepTab(1));
+    tabHintL.addEventListener("click", () => stepTab(-1));
+    tabBarEl.addEventListener("scroll", updateHints, { passive: true });
+    window.addEventListener("resize", updateHints);
+    updateHints();
   }
 
   // ---------- video: first tap unmutes, then click to pause/resume ----------
