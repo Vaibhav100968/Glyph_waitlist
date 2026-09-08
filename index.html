@@ -146,15 +146,11 @@
   .card .cardcopy{padding:28px 28px 18px}
   .card h3{font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.5px;line-height:1.15}
   .card p{font-size:15px;color:var(--muted);margin-top:8px;max-width:520px}
-  .card .cardshot{padding:0 28px 28px;margin-top:auto;display:flex;justify-content:center}
+  .card .cardshot{padding:0 28px 28px;margin-top:auto}
   .card .cardshot img{
-    display:block;max-width:100%;max-height:440px;width:auto;height:auto;
+    display:block;width:100%;height:400px;object-fit:cover;object-position:top center;
     border-radius:12px;border:1px solid var(--line);
   }
-  .card.full{grid-column:1/-1;flex-direction:row;align-items:center}
-  .card.full .cardcopy{flex:1;padding:28px}
-  .card.full .cardshot{flex:1.2;padding:24px;margin:0}
-  .card.full .cardshot img{max-height:380px}
 
   /* ---------- stance ---------- */
   .stance{margin:96px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
@@ -174,8 +170,7 @@
   @media(max-width:800px){
     .toolkit{padding:64px 0 8px}
     .panel.active{grid-template-columns:1fr}
-    .card.full{flex-direction:column}
-    .card .cardshot img{max-height:520px}
+    .card .cardshot img{height:430px}
     .tabbar{justify-content:flex-start}
     form{flex-direction:column}
     form .btn{width:100%;text-align:center}
@@ -361,21 +356,15 @@
             </div>
             <div class="cardshot"><img src="img/quiz.jpg" alt="An auto-generated quiz question" loading="lazy" /></div>
           </div>
-          <div class="card full">
-            <div class="cardcopy">
-              <h3>See everything you're learning</h3>
-              <p>Every subject and topic on one map, with a place to start. Your notebooks feed it; it tells you what to learn next.</p>
-            </div>
-            <div class="cardshot"><img src="img/learn.jpg" alt="A knowledge map of subjects with a Start Here node" loading="lazy" /></div>
-          </div>
-        </div>
+                  </div>
 
         <div class="panel" data-panel="together">
           <div class="card">
             <div class="cardcopy">
               <h3>Private by default</h3>
-              <p>Your notes are never shared. Flip one switch to become discoverable to verified students on your campus — or anyone studying the same topic — and flip it back any time.</p>
+              <p>Your notes are never shared. One switch makes you discoverable to students on your campus, and you can flip it back any time.</p>
             </div>
+            <div class="cardshot"><img src="img/privacy.jpg" alt="The Study Together privacy switch" loading="lazy" /></div>
           </div>
           <div class="card">
             <div class="cardcopy">
