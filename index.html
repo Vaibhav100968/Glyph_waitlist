@@ -143,7 +143,7 @@
     background:#F1EDE3;border-radius:24px;overflow:hidden;
     display:flex;flex-direction:column;
   }
-  .card .cardcopy{padding:28px 28px 18px}
+  .card .cardcopy{padding:28px 28px 18px;min-height:168px}
   .card h3{font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.5px;line-height:1.15}
   .card p{font-size:15px;color:var(--muted);margin-top:8px;max-width:520px}
   .card .cardshot{padding:0 28px 28px;margin-top:auto}
@@ -171,6 +171,7 @@
     .toolkit{padding:64px 0 8px}
     .panel.active{grid-template-columns:1fr}
     .card .cardshot img{height:430px}
+    .card .cardcopy{min-height:214px}
     .tabbar{justify-content:flex-start}
     form{flex-direction:column}
     form .btn{width:100%;text-align:center}
@@ -301,6 +302,9 @@
         <button class="tabbtn" data-tab="study" role="tab" aria-selected="false">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="1" y="4.5" width="11" height="10" rx="2"/><path d="M4 4.5V3a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-1.5"/></svg>
           Study</button>
+        <button class="tabbtn" data-tab="audio" role="tab" aria-selected="false">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="3.5" y="3" width="2" height="10" rx="1"/><rect x="7" y="0.5" width="2" height="15" rx="1"/><rect x="10.5" y="3.5" width="2" height="9" rx="1"/><rect x="14" y="6" width="2" height="4" rx="1"/></svg>
+          Audio</button>
         <button class="tabbtn" data-tab="together" role="tab" aria-selected="false">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="3"/><circle cx="11.5" cy="6" r="2.3"/><path d="M0 14c0-2.8 2.2-5 5-5s5 2.2 5 5v1H0zM10.4 9.4a4.6 4.6 0 0 1 5.6 4.5v1h-4.5v-1c0-1.7-.4-3.2-1.1-4.5z"/></svg>
           Together</button>
@@ -318,7 +322,7 @@
           <div class="card">
             <div class="cardcopy">
               <h3>A tutor in the margin</h3>
-              <p>Ask about anything on your page. Glyph answers in plain language and writes the steps out like a tutor on paper — instant, on-device, even offline.</p>
+              <p>Ask about anything on your page — plain language, steps written out like a tutor on paper. Instant and on-device.</p>
             </div>
             <div class="cardshot"><img src="img/tutor.jpg" alt="The tutor solving 2x + 3 = 7 step by step beside handwritten notes" loading="lazy" /></div>
           </div>
@@ -335,7 +339,7 @@
           <div class="card">
             <div class="cardcopy">
               <h3>Your tools live beside your notes</h3>
-              <p>Desmos graphing, a scientific calculator, Math Lab, study timers, to-dos, YouTube — floating on the page where you're writing, not in five other apps.</p>
+              <p>Desmos, calculator, Math Lab, timers — floating on the page you're writing on, not in five other apps.</p>
             </div>
             <div class="cardshot"><img src="img/widgets.jpg" alt="Graphing, calculator and Math Lab widgets over a handwritten page" loading="lazy" /></div>
           </div>
@@ -358,18 +362,35 @@
           </div>
                   </div>
 
+        <div class="panel" data-panel="audio">
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Just ask, out loud</h3>
+              <p>Talk to your tutor and it talks back — a voice you can interrupt, built on the same never-just-the-answer teaching.</p>
+            </div>
+            <div class="cardshot"><img src="img/voice.jpg" alt="The voice tutor answering a spoken question" loading="lazy" /></div>
+          </div>
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Lectures write themselves down</h3>
+              <p>Record the lecture while you write. Glyph transcribes it live and turns it into notes beside your own.</p>
+            </div>
+            <div class="cardshot"><img src="img/record.jpg" alt="A lecture recording with a live streaming transcript" loading="lazy" /></div>
+          </div>
+        </div>
+
         <div class="panel" data-panel="together">
           <div class="card">
             <div class="cardcopy">
-              <h3>Private by default</h3>
-              <p>Your notes are never shared. One switch makes you discoverable to students on your campus, and you can flip it back any time.</p>
+              <h3>Present to the room</h3>
+              <p>Walk the room through your page live — see who's watching, take raised hands. One switch turns it on.</p>
             </div>
-            <div class="cardshot"><img src="img/privacy.jpg" alt="The Study Together privacy switch" loading="lazy" /></div>
+            <div class="cardshot"><img src="img/present.jpg" alt="Presenting a page to eight viewers with a raised hand" loading="lazy" /></div>
           </div>
           <div class="card">
             <div class="cardcopy">
               <h3>Friends on the same page. Literally.</h3>
-              <p>Match with classmates studying the same thing and work it out together — their ink shows up live, in their color, with a group chat beside the page.</p>
+              <p>Match with classmates studying the same thing — their ink shows up live, in their color, with a chat beside the page.</p>
             </div>
             <div class="cardshot"><img src="img/session.jpg" alt="A live study session with friends writing on the page" loading="lazy" /></div>
           </div>
