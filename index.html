@@ -114,30 +114,45 @@
     .logos-track img.wide{height:32px}
   }
 
-  /* ---------- feature rows ---------- */
-  .features{padding:72px 0 8px;display:flex;flex-direction:column;gap:96px;max-width:940px;margin:0 auto}
-  .row{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;align-items:center}
-  .row.flip .copy{order:2}
-  .row.flip .shot{order:1}
-  .kicker{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
-  .row h2{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.7px;line-height:1.14}
-  .row p{font-size:16px;color:var(--muted);margin-top:12px;max-width:360px}
-  .shot{display:flex;justify-content:center}
-  .shot img{
-    display:block;max-width:100%;max-height:600px;width:auto;height:auto;border-radius:14px;
-    border:1px solid var(--line);
-    box-shadow:0 20px 50px -32px rgba(28,27,25,.35);
+  /* ---------- toolkit: tabbed feature grid ---------- */
+  .toolkit{padding:84px 0 8px}
+  .bigtitle{text-align:center;font-size:clamp(34px,5vw,54px);font-weight:800;letter-spacing:-1.2px}
+  .tabbar{
+    display:flex;gap:4px;background:var(--card);border:1px solid var(--line);
+    border-radius:999px;padding:5px;width:max-content;max-width:100%;
+    margin:30px auto 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
   }
-  /* text and picture pop in separately as the row scrolls into view */
-  @media (prefers-reduced-motion: no-preference){
-    .row.reveal{opacity:1;transform:none;transition:none}
-    .row.reveal .copy,.row.reveal .shot{
-      opacity:0;transform:translateY(30px) scale(.98);
-      transition:opacity .65s ease,transform .65s ease;
-    }
-    .row.reveal.in .copy,.row.reveal.in .shot{opacity:1;transform:none}
-    .row.reveal.in .shot{transition-delay:.15s}
+  .tabbar::-webkit-scrollbar{display:none}
+  .tabbn{all:unset}
+  .tabbtn{
+    display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;
+    font:inherit;font-size:15px;font-weight:600;color:var(--ink);
+    background:none;border:none;cursor:pointer;white-space:nowrap;
   }
+  .tabbtn.active{background:var(--ink);color:#fff}
+  .panels{margin-top:34px}
+  .panel{display:none}
+  .panel.active{
+    display:grid;grid-template-columns:1fr 1.5fr;gap:20px;align-items:stretch;
+    animation:panelin .4s ease;
+  }
+  @keyframes panelin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .card{
+    background:#F1EDE3;border-radius:24px;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .card .cardcopy{padding:28px 28px 18px}
+  .card h3{font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.5px;line-height:1.15}
+  .card p{font-size:15px;color:var(--muted);margin-top:8px;max-width:520px}
+  .card .cardshot{padding:0 28px 28px;margin-top:auto;display:flex;justify-content:center}
+  .card .cardshot img{
+    display:block;max-width:100%;max-height:440px;width:auto;height:auto;
+    border-radius:12px;border:1px solid var(--line);
+  }
+  .card.full{grid-column:1/-1;flex-direction:row;align-items:center}
+  .card.full .cardcopy{flex:1;padding:28px}
+  .card.full .cardshot{flex:1.2;padding:24px;margin:0}
+  .card.full .cardshot img{max-height:380px}
 
   /* ---------- stance ---------- */
   .stance{margin:96px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
@@ -155,14 +170,14 @@
   }
 
   @media(max-width:800px){
-    .row,.row.flip{grid-template-columns:1fr;gap:22px}
-    .row.flip .copy{order:1}
-    .row.flip .shot{order:2}
-    .row p{max-width:none}
+    .toolkit{padding:64px 0 8px}
+    .panel.active{grid-template-columns:1fr}
+    .card.full{flex-direction:column}
+    .card .cardshot img{max-height:520px}
+    .tabbar{justify-content:flex-start}
     form{flex-direction:column}
     form .btn{width:100%;text-align:center}
     nav .btn{padding:10px 18px;font-size:14px}
-    .features{gap:64px}
     /* the robot keeps his bubbles beside him on every screen */
     .mascot{gap:10px;padding:24px 4px 0}
     .mascot svg{width:112px}
@@ -277,71 +292,99 @@
       </div>
     </div>
 
-    <!-- features -->
-    <section class="features">
-      <div class="row reveal">
-        <div class="copy">
-          <div class="kicker mono">Circle anything</div>
-          <h2>A tutor in the margin.</h2>
-          <p>Ask about anything on your page. Glyph answers in plain language and writes the steps out like a tutor on paper — instant, on-device, even offline.</p>
-        </div>
-        <div class="shot"><img src="img/tutor.jpg" alt="The tutor panel solving 2x + 3 = 7 step by step beside handwritten notes" loading="lazy" /></div>
+    <!-- toolkit: tabbed feature grid -->
+    <section class="toolkit reveal" id="toolkit">
+      <h2 class="bigtitle">A widget for everything.</h2>
+
+      <div class="tabbar" role="tablist">
+        <button class="tabbtn active" data-tab="tutor" role="tab" aria-selected="true">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0l1.9 6.1L16 8l-6.1 1.9L8 16l-1.9-6.1L0 8l6.1-1.9z"/></svg>
+          Tutor</button>
+        <button class="tabbtn" data-tab="widgets" role="tab" aria-selected="false">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="7" height="7" rx="1.5"/><rect x="9" y="0" width="7" height="7" rx="1.5"/><rect x="0" y="9" width="7" height="7" rx="1.5"/><rect x="9" y="9" width="7" height="7" rx="1.5"/></svg>
+          Widgets</button>
+        <button class="tabbtn" data-tab="study" role="tab" aria-selected="false">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="1" y="4.5" width="11" height="10" rx="2"/><path d="M4 4.5V3a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-1.5"/></svg>
+          Study</button>
+        <button class="tabbtn" data-tab="together" role="tab" aria-selected="false">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="3"/><circle cx="11.5" cy="6" r="2.3"/><path d="M0 14c0-2.8 2.2-5 5-5s5 2.2 5 5v1H0zM10.4 9.4a4.6 4.6 0 0 1 5.6 4.5v1h-4.5v-1c0-1.7-.4-3.2-1.1-4.5z"/></svg>
+          Together</button>
       </div>
-      <div class="row flip reveal">
-        <div class="copy">
-          <div class="kicker mono">One page, every tool</div>
-          <h2>Your tools live beside your notes.</h2>
-          <p>Graphing, calculator, Math Lab, timers — floating on the page where you're writing, not in five other apps. Add what you need, drag it where you want it.</p>
+
+      <div class="panels">
+        <div class="panel active" data-panel="tutor">
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Worksheets, written for you</h3>
+              <p>Your tutor reads your pages, finds the spots you slipped on, and writes a practice set aimed exactly there.</p>
+            </div>
+            <div class="cardshot"><img src="img/worksheet.jpg" alt="An agent-generated chain rule worksheet" loading="lazy" /></div>
+          </div>
+          <div class="card">
+            <div class="cardcopy">
+              <h3>A tutor in the margin</h3>
+              <p>Ask about anything on your page. Glyph answers in plain language and writes the steps out like a tutor on paper — instant, on-device, even offline.</p>
+            </div>
+            <div class="cardshot"><img src="img/tutor.jpg" alt="The tutor solving 2x + 3 = 7 step by step beside handwritten notes" loading="lazy" /></div>
+          </div>
         </div>
-        <div class="shot"><img src="img/widgets.jpg" alt="Graphing, calculator and Math Lab widgets floating over a handwritten page" loading="lazy" /></div>
-      </div>
-      <div class="row reveal">
-        <div class="copy">
-          <div class="kicker mono">Notes → notecards</div>
-          <h2>Your notes become flashcards.</h2>
-          <p>Glyph reads the pages you wrote and builds a deck from them — flip through, mark what stuck, and it schedules the rest for review.</p>
+
+        <div class="panel" data-panel="widgets">
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Feels like paper</h3>
+              <p>Real covers, ruled pages, and an Apple Pencil canvas that stays out of your way. Your notes look like yours.</p>
+            </div>
+            <div class="cardshot"><img src="img/home.jpg" alt="The Glyph home screen with a teal Calculus II notebook" loading="lazy" /></div>
+          </div>
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Your tools live beside your notes</h3>
+              <p>Desmos graphing, a scientific calculator, Math Lab, study timers, to-dos, YouTube — floating on the page where you're writing, not in five other apps.</p>
+            </div>
+            <div class="cardshot"><img src="img/widgets.jpg" alt="Graphing, calculator and Math Lab widgets over a handwritten page" loading="lazy" /></div>
+          </div>
         </div>
-        <div class="shot"><img src="img/flashcards.jpg" alt="A flashcard generated from notes, with study stats and a Pomodoro timer" loading="lazy" /></div>
-      </div>
-      <div class="row flip reveal">
-        <div class="copy">
-          <div class="kicker mono">Prove it</div>
-          <h2>Then it quizzes you.</h2>
-          <p>Quizzes generated from the same pages. Retrieval practice is the most effective study technique research has found — so it's built in, not bolted on.</p>
+
+        <div class="panel" data-panel="study">
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Notes become flashcards</h3>
+              <p>Glyph reads the pages you wrote and builds a deck from them — flip through, mark what stuck.</p>
+            </div>
+            <div class="cardshot"><img src="img/flashcards.jpg" alt="A flashcard generated from notes" loading="lazy" /></div>
+          </div>
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Then it quizzes you</h3>
+              <p>Quizzes generated from the same pages. Retrieval practice is the most effective technique learning research has found — built in, not bolted on.</p>
+            </div>
+            <div class="cardshot"><img src="img/quiz.jpg" alt="An auto-generated quiz question" loading="lazy" /></div>
+          </div>
+          <div class="card full">
+            <div class="cardcopy">
+              <h3>See everything you're learning</h3>
+              <p>Every subject and topic on one map, with a place to start. Your notebooks feed it; it tells you what to learn next.</p>
+            </div>
+            <div class="cardshot"><img src="img/learn.jpg" alt="A knowledge map of subjects with a Start Here node" loading="lazy" /></div>
+          </div>
         </div>
-        <div class="shot"><img src="img/quiz.jpg" alt="An auto-generated quiz question with four answer choices" loading="lazy" /></div>
-      </div>
-      <div class="row reveal">
-        <div class="copy">
-          <div class="kicker mono">Practice, written for you</div>
-          <h2>An agent that writes your worksheets.</h2>
-          <p>Your tutor reads your pages, finds the spots you slipped on, and writes a practice set aimed exactly there — with the problems ranked by difficulty.</p>
+
+        <div class="panel" data-panel="together">
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Private by default</h3>
+              <p>Your notes are never shared. Flip one switch to become discoverable to verified students on your campus — or anyone studying the same topic — and flip it back any time.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="cardcopy">
+              <h3>Friends on the same page. Literally.</h3>
+              <p>Match with classmates studying the same thing and work it out together — their ink shows up live, in their color, with a group chat beside the page.</p>
+            </div>
+            <div class="cardshot"><img src="img/session.jpg" alt="A live study session with friends writing on the page" loading="lazy" /></div>
+          </div>
         </div>
-        <div class="shot"><img src="img/worksheet.jpg" alt="An agent-generated chain rule worksheet with five problems" loading="lazy" /></div>
-      </div>
-      <div class="row flip reveal">
-        <div class="copy">
-          <div class="kicker mono">Study together</div>
-          <h2>Friends on the same page. Literally.</h2>
-          <p>Match with classmates studying the same topic — on your campus or anywhere — and work it out together. Their ink shows up live, in their color.</p>
-        </div>
-        <div class="shot"><img src="img/session.jpg" alt="A live study session with three friends writing on the page and a session chat" loading="lazy" /></div>
-      </div>
-      <div class="row reveal">
-        <div class="copy">
-          <div class="kicker mono">The map</div>
-          <h2>See everything you're learning.</h2>
-          <p>Every subject and topic on one map, with a place to start. Your notebooks feed it; it tells you what to learn next.</p>
-        </div>
-        <div class="shot"><img src="img/learn.jpg" alt="A knowledge map of subjects with a Start Here node" loading="lazy" /></div>
-      </div>
-      <div class="row flip reveal">
-        <div class="copy">
-          <div class="kicker mono">Feels like paper</div>
-          <h2>A notebook that's actually a notebook.</h2>
-          <p>Real covers, ruled pages, and an Apple Pencil canvas that stays out of your way. Your notes look like yours — because you wrote them.</p>
-        </div>
-        <div class="shot"><img src="img/home.jpg" alt="The Glyph home screen with a teal Calculus II notebook" loading="lazy" /></div>
       </div>
     </section>
 
@@ -405,6 +448,19 @@
     }
   }, { threshold: 0.15 });
   document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+  // ---------- toolkit tabs ----------
+  document.querySelectorAll(".tabbtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tabbtn").forEach((b) => {
+        b.classList.toggle("active", b === btn);
+        b.setAttribute("aria-selected", b === btn ? "true" : "false");
+      });
+      document.querySelectorAll(".panel").forEach((p) => {
+        p.classList.toggle("active", p.dataset.panel === btn.dataset.tab);
+      });
+    });
+  });
 
   // ---------- video: click to pause/resume ----------
   const v = document.getElementById("demoVideo");
