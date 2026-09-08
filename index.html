@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Glyph — The classroom that lives inside your notebook</title>
 <meta name="description" content="Write by hand. Glyph reads your notes, teaches from them, and shows you the math — not just the answer. Join the waitlist." />
+<link rel="icon" type="image/svg+xml" href="img/logo.svg" />
 <style>
   :root{
     --bg:#FAF9F7;
@@ -29,7 +30,8 @@
 
   /* ---------- nav ---------- */
   nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
-  .logo{font-weight:700;font-size:20px;letter-spacing:.2px}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:20px;letter-spacing:.2px}
+  .logo img{height:30px;width:30px;display:block}
   .btn{
     display:inline-block;padding:12px 22px;border-radius:999px;border:none;cursor:pointer;
     background:var(--ink);color:#fff;font-size:15px;font-weight:600;text-decoration:none;
@@ -90,10 +92,17 @@
   /* ---------- demo video ---------- */
   .demo{padding:34px 0 8px}
   .videoframe{
+    position:relative;max-width:780px;margin:0 auto;
     border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#0d1117;
     box-shadow:0 24px 60px -36px rgba(28,27,25,.4);
   }
   .videoframe video{display:block;width:100%;height:auto;cursor:pointer}
+  .soundhint{
+    position:absolute;right:14px;bottom:14px;padding:8px 14px;border:none;border-radius:999px;
+    background:rgba(28,27,25,.72);color:#fff;font-size:13px;font-weight:600;cursor:pointer;
+    backdrop-filter:blur(6px);
+  }
+  .soundhint[hidden]{display:none}
   .caption{text-align:center;font-size:13px;color:var(--faint);margin-top:12px}
 
   /* ---------- logo strip ---------- */
@@ -196,7 +205,7 @@
 <body>
   <div class="wrap">
     <nav>
-      <div class="logo">Glyph</div>
+      <div class="logo"><img src="img/logo.svg" alt="" />Glyph</div>
     </nav>
 
     <header>
@@ -278,6 +287,7 @@
         <video id="demoVideo" autoplay muted loop playsinline preload="metadata">
           <source src="demo.mp4" type="video/mp4" />
         </video>
+        <button class="soundhint" id="soundHint" type="button">🔇 Tap for sound</button>
       </div>
     </section>
 
@@ -499,9 +509,17 @@
     updateHint();
   }
 
-  // ---------- video: click to pause/resume ----------
+  // ---------- video: first tap unmutes, then click to pause/resume ----------
   const v = document.getElementById("demoVideo");
-  if (v) v.addEventListener("click", () => { v.paused ? v.play() : v.pause(); });
+  const soundHint = document.getElementById("soundHint");
+  if (v) {
+    const unmute = () => { v.muted = false; if (soundHint) soundHint.hidden = true; };
+    if (soundHint) soundHint.addEventListener("click", (e) => { e.stopPropagation(); unmute(); });
+    v.addEventListener("click", () => {
+      if (v.muted) { unmute(); return; }
+      v.paused ? v.play() : v.pause();
+    });
+  }
 </script>
 </body>
 </html>
