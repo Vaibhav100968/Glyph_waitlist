@@ -184,15 +184,21 @@
     .card .cardshot img{height:430px}
     .card .cardcopy{min-height:214px}
     .tabbar{justify-content:flex-start}
-    .tabwrap{padding:0 30px;width:100%}
     .tabhint{
-      display:flex;position:absolute;top:50%;transform:translateY(-50%);
-      width:28px;height:32px;align-items:center;justify-content:center;
-      background:none;border:none;padding:0;cursor:pointer;color:var(--ink);
+      display:flex;position:absolute;top:2px;bottom:2px;width:52px;
+      align-items:center;border:none;padding:0;cursor:pointer;color:var(--ink);
       transition:opacity .25s ease;
     }
-    .tabhint-r{right:0}
-    .tabhint-l{left:0}
+    .tabhint-r{
+      right:2px;justify-content:flex-end;padding-right:10px;
+      border-radius:0 999px 999px 0;
+      background:linear-gradient(to right, rgba(255,255,255,0), var(--card) 55%);
+    }
+    .tabhint-l{
+      left:2px;justify-content:flex-start;padding-left:10px;
+      border-radius:999px 0 0 999px;
+      background:linear-gradient(to left, rgba(255,255,255,0), var(--card) 55%);
+    }
     .tabhint.hide{opacity:0;pointer-events:none}
     form{flex-direction:column}
     form .btn{width:100%;text-align:center}
