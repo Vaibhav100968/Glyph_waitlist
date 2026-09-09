@@ -44,12 +44,12 @@ function doPost(e) {
 function confirmationHtml() {
   return (
     '<div style="font-family:Georgia,serif;max-width:480px;margin:auto;color:#2C2418;line-height:1.6">' +
-      '<img src="https://glyphedu.tech/img/logo-email.png" width="56" height="56" alt="Glyph" ' +
-        'style="display:block;margin:0 0 18px" />' +
       '<h2 style="color:#A8905C;margin:0 0 10px">You’re on the list.</h2>' +
       '<p>Thanks for joining the <b>Glyph</b> waitlist — the classroom that lives inside your notebook.</p>' +
       '<p>We’ll email you the moment we open up. Until then, keep writing by hand.</p>' +
       '<p style="color:#8C7E6A;margin-top:20px">— Vaibhav &amp; Sudeep</p>' +
+      '<img src="https://glyphedu.tech/img/logo-email.png" width="48" height="48" alt="Glyph" ' +
+        'style="display:block;margin:24px 0 0" />
     '</div>'
   );
 }
