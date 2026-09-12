@@ -1,36 +1,46 @@
 # Glyph — Waitlist Site
 
-Single-page waitlist landing page for **Glyph**, the classroom that lives inside your notebook.
-Static site (HTML/CSS/JS) — runs on GitHub Pages. Emails are stored in a Google Sheet.
+Single-page waitlist site for **Glyph**, the classroom that lives inside your notebook.
+Static (HTML/CSS/JS), served by GitHub Pages at [glyphedu.tech](https://glyphedu.tech). Emails land in a Google Sheet.
 
-## Features
-- Handwriting headline animation (a pencil writes the tagline on load)
-- Demo video slot (autoplays muted, click to pause, unmute button)
-- Interactive Desmos graph
-- Email capture stored in a **Google Sheet** (via Apps Script)
+## Layout
 
-## Set up email capture (Google Sheets, free)
-1. Create a Google Sheet. Row 1 headers: `A1 = Timestamp`, `B1 = Email`.
-2. **Extensions → Apps Script**, paste the contents of `apps-script/Code.gs`.
-3. **Deploy → New deployment → Web app**:
-   - Execute as: **Me**
-   - Who has access: **Anyone**
-   Copy the **Web app URL**.
-4. In `index.html`, set `SCRIPT_URL` to that URL.
-5. Commit + push. Emails now land in your sheet (duplicates are ignored).
+```
+index.html        the page
+privacy.html      privacy policy (shares css/site.css)
+css/site.css      all styling — paper/ink palette, type, motion
+js/site.js        behaviour: word-stagger, reveals, film, steps rail, form
+js/lenis.min.js   vendored smooth scroll (lenis, MIT)
+fonts/            self-hosted woff2: Instrument Serif, Geist (variable), Space Mono
+video/nib.mp4     hero: the fountain-pen macro from the film (1.5 s, plays once, 0.6 MB)
+video/nib-end.jpg the macro's last frame — the hero still for reduced motion and blocked autoplay
+video/film.mp4    the full GlyphInk film, 1440×1080 with audio (13 MB, loaded lazily)
+video/film-720.mp4 the same film at 960×720 (4 MB) — served on phones and to Data Saver
+img/app/          app plates + Blender device renders (from ../glyph/Glyph/out/plates and blender/out)
+img/*.jpg         product screenshots used in the toolkit grid
+img/og.jpg        social preview (1200×630)
+apps-script/      Google Apps Script that stores emails + sends the confirmation
+```
 
-## Deploy on GitHub Pages (free)
-1. Make the repo **public**.
-2. **Settings → Pages → Build and deployment → Source: Deploy from a branch**.
-3. Branch: `main`, folder: `/ (root)` → **Save**.
-4. Live in ~1 min at `https://<user>.github.io/Glyph_waitlist/`.
+No third-party requests: fonts, video and scripts are all served from this repo (the privacy page promises no trackers).
 
-## Other keys
-- **Desmos** — the interactive graph uses a Desmos API key in the `<script src>`
-  URL in `index.html`.
-- **Demo video** — drop `demo.mp4` in this folder and uncomment the `<source>`
-  line (or replace the `<video>` with a YouTube `<iframe>`).
+## Design
+
+The brief and rubric the page follows live in the build notes ("Ink on paper"): paper `#F5F2EC`, ink `#161512`,
+Instrument Serif for display, Geist for UI, Space Mono for `( LABELS )`, one easing (`cubic-bezier(.22,1,.36,1)`),
+reveals that rise from blur, the nib video as the hero, a giant wordmark to close. Keep colour out of the chrome.
+
+## Email capture (Google Sheets, free)
+1. Google Sheet, row 1 headers: `A1 = Timestamp`, `B1 = Email`.
+2. Extensions → Apps Script, paste `apps-script/Code.gs`, deploy as a Web app (execute as me, anyone can access).
+3. Put the Web app URL in `SCRIPT_URL` at the top of the email-capture block in `js/site.js`.
+
+## Regenerating media
+- Hero nib: `ffmpeg -framerate 60 -i ../glyph/Glyph/blender/out/macro_ink/f_%04d.png -vf "crop=1920:1080:0:200,format=yuv420p" -c:v libx264 -crf 20 -movflags +faststart video/nib.mp4`
+- Film: `ffmpeg -i ../glyph/Glyph/out/GlyphInk_1x1_scored_share.mp4 -vf scale=1440:1080 -c:v libx264 -crf 23 -c:a aac -b:a 128k -movflags +faststart video/film.mp4`
+- OG image: open `index.html?og` at 1200×630 and screenshot it.
+- Object plate: `blender/scene_web.py` (a copy of the film's scene with a `device_web` camera) renders it; the render is then cropped to 2200×1120 and warmed toward paper with ffmpeg `eq`/`colorbalance`.
 
 ## Run locally
-Open `index.html` in a browser. Without a `SCRIPT_URL` set, the form runs in
-demo mode (no email stored).
+Any static server works, e.g. `python3 -m http.server 8765` then open http://localhost:8765/.
+Without a `SCRIPT_URL` the form runs in demo mode (no email stored).

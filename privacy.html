@@ -6,69 +6,66 @@
 <title>Privacy — Glyph</title>
 <link rel="icon" type="image/svg+xml" href="img/favicon.svg?v=3" />
 <meta name="description" content="Glyph's privacy policy: we collect your email for the waitlist and nothing else. No cookies, no trackers." />
+<meta name="theme-color" content="#F5F2EC" />
+<link rel="stylesheet" href="css/site.css?v=3" />
 <style>
-  :root{
-    --bg:#FAF9F7;
-    --ink:#1C1B19;
-    --muted:#6F6B63;
-    --faint:#98938A;
-    --line:#E7E4DE;
-    --teal:#1F6F75;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);color:var(--ink);line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:680px;margin:0 auto;padding:0 24px}
-  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
-  .logo{font-weight:700;font-size:20px;letter-spacing:.2px;color:var(--ink);text-decoration:none}
-  main{padding:40px 0 80px}
-  h1{font-size:34px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px}
-  .updated{font-size:13px;color:var(--faint);margin-bottom:34px}
-  h2{font-size:19px;font-weight:700;letter-spacing:-.3px;margin:32px 0 8px}
-  p{font-size:16px;color:var(--muted);margin-top:8px}
-  p b{color:var(--ink)}
-  a{color:var(--teal)}
-  footer{border-top:1px solid var(--line);padding:28px 0 40px;text-align:center;font-size:13px;color:var(--faint)}
+  .page{max-width:680px;margin:0 auto;padding:150px var(--gutter) 96px}
+  .page h1{margin:14px 0 8px}
+  .updated{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:40px}
+  .page h2{font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.015em;line-height:1.05;margin:40px 0 10px}
+  .page p{font-size:17px;color:var(--ink-2);margin-top:8px;text-wrap:pretty}
+  .page p b{color:var(--ink);font-weight:500}
+  .page a{color:var(--ink);text-decoration-color:var(--faint);text-underline-offset:3px}
+  .page a:hover{text-decoration-color:var(--ink)}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <nav>
-      <a class="logo" href="/">Glyph</a>
-    </nav>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="nav is-scrolled" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/" aria-label="Glyph"><img src="img/logo-mark.svg" alt="" width="28" height="28" />Glyph</a>
+      <div class="nav-right">
+        <a class="btn btn-ink" href="/#join">Join the waitlist</a>
+      </div>
+    </div>
+  </header>
 
-    <main>
-      <h1>Privacy policy</h1>
-      <p class="updated">Last updated: September 7, 2026</p>
+  <main class="page">
+    <span class="eyebrow">Privacy</span>
+    <h1 class="display" style="font-size:clamp(44px,6vw,72px)">Almost nothing <em>to tell.</em></h1>
+    <p class="updated">Last updated September 7, 2026</p>
 
-      <p>Glyph is a note-taking and tutoring app for students, built by Vaibhav Gollapalli and Sudeep Senivarapu. This page covers the waitlist website at glyphedu.tech. It's short because we collect almost nothing.</p>
+    <p>Glyph is a note-taking and tutoring app for students, built by Vaibhav Gollapalli and Sudeep Senivarapu. This page covers the waitlist website at glyphedu.tech. It's short because we collect almost nothing.</p>
 
-      <h2>What we collect</h2>
-      <p><b>Your email address</b>, if you choose to join the waitlist. That's it. We don't collect names, locations, or anything else, and the site works fine if you never type anything.</p>
+    <h2>What we collect</h2>
+    <p><b>Your email address</b>, if you choose to join the waitlist. That's it. We don't collect names, locations, or anything else, and the site works fine if you never type anything.</p>
 
-      <h2>What we use it for</h2>
-      <p>One confirmation email when you sign up, and updates about Glyph — like when the app opens up. Nothing else. We never sell or share your email with anyone, and we don't send marketing on anyone else's behalf.</p>
+    <h2>What we use it for</h2>
+    <p>One confirmation email when you sign up, and updates about Glyph — like when the app opens up. Nothing else. We never sell or share your email with anyone, and we don't send marketing on anyone else's behalf.</p>
 
-      <h2>Where it's stored</h2>
-      <p>Waitlist emails are stored in a private Google Sheet and processed by <a href="https://resend.com">Resend</a>, the service that delivers our emails. Both act only on our instructions.</p>
+    <h2>Where it's stored</h2>
+    <p>Waitlist emails are stored in a private Google Sheet and processed by <a href="https://resend.com">Resend</a>, the service that delivers our emails. Both act only on our instructions.</p>
 
-      <h2>Cookies and tracking</h2>
-      <p><b>None.</b> This site sets no cookies, runs no analytics, and includes no trackers. The site is hosted on GitHub Pages, which may log standard technical data (like IP addresses) to serve the page — see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</p>
+    <h2>Cookies and tracking</h2>
+    <p><b>None.</b> This site sets no cookies, runs no analytics, and includes no trackers. Fonts and video are served from this site, not a third party. The site is hosted on GitHub Pages, which may log standard technical data (like IP addresses) to serve the page — see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</p>
 
-      <h2>Children</h2>
-      <p>The waitlist isn't directed at children under 13, and we don't knowingly collect their information. If you're a parent and believe your child under 13 signed up, email us and we'll delete it.</p>
+    <h2>Children</h2>
+    <p>The waitlist isn't directed at children under 13, and we don't knowingly collect their information. If you're a parent and believe your child under 13 signed up, email us and we'll delete it.</p>
 
-      <h2>Removing your email</h2>
-      <p>Reply to any email we send you, or write to <a href="mailto:hello@glyphedu.tech">hello@glyphedu.tech</a>, and we'll delete your address. No questions, no delay.</p>
+    <h2>Removing your email</h2>
+    <p>Reply to any email we send you, or write to <a href="mailto:hello@glyphedu.tech">hello@glyphedu.tech</a>, and we'll delete your address. No questions, no delay.</p>
 
-      <h2>Changes</h2>
-      <p>If this policy changes in a way that matters, we'll note it here with a new date. When the Glyph app launches, it will have its own privacy policy covering the app itself.</p>
-    </main>
-  </div>
+    <h2>Changes</h2>
+    <p>If this policy changes in a way that matters, we'll note it here with a new date. When the Glyph app launches, it will have its own privacy policy covering the app itself.</p>
+  </main>
 
-  <footer>Glyph · Built by Vaibhav &amp; Sudeep · <a href="/">glyphedu.tech</a></footer>
+  <footer>
+    <div class="wrap">
+      <div class="foot-row">
+        <span>Glyph · Built by Vaibhav &amp; Sudeep · 2026</span>
+        <span class="links"><a href="mailto:hello@glyphedu.tech">hello@glyphedu.tech</a><a href="/">glyphedu.tech</a><span>No cookies, no trackers</span></span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

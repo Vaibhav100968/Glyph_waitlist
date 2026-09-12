@@ -5,250 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Glyph — The classroom that lives inside your notebook</title>
 <meta name="description" content="Write by hand. Glyph reads your notes, teaches from them, and shows you the math — not just the answer. Join the waitlist." />
+<meta property="og:title" content="Glyph — The classroom that lives inside your notebook" />
+<meta property="og:description" content="Write by hand. Glyph reads your notes, teaches from them, and shows you the math — not just the answer." />
+<meta property="og:image" content="https://glyphedu.tech/img/og.jpg" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#F5F2EC" />
 <link rel="icon" type="image/svg+xml" href="img/favicon.svg?v=3" />
-<style>
-  :root{
-    --bg:#FAF9F7;
-    --card:#FFFFFF;
-    --ink:#1C1B19;
-    --muted:#6F6B63;
-    --faint:#98938A;
-    --line:#E7E4DE;
-    --teal:#1F6F75;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--ink);
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
-  .mono{font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 32px}
-
-  /* ---------- nav ---------- */
-  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
-  .logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:20px;letter-spacing:.2px}
-  .logo img{height:30px;width:30px;display:block}
-  .btn{
-    display:inline-block;padding:12px 22px;border-radius:999px;border:none;cursor:pointer;
-    background:var(--ink);color:#fff;font-size:15px;font-weight:600;text-decoration:none;
-  }
-  .btn:hover{background:#000}
-
-  /* ---------- hero ---------- */
-  header{text-align:center;padding:40px 0 72px}
-  .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
-  h1{font-size:clamp(38px,6vw,64px);font-weight:800;letter-spacing:-1.5px;line-height:1.05;max-width:820px;margin:0 auto}
-  .punch{font-size:22px;font-weight:700;color:var(--ink);max-width:640px;margin:26px auto 0;letter-spacing:-.3px}
-  .sub{font-size:17px;color:var(--muted);max-width:560px;margin:10px auto 0}
-  /* the waitlist form: two liquid pills (drawn in .goo) under a transparent input + button */
-  .join{position:relative;max-width:440px;margin:34px auto 0;--lean:translateX(-6px)}
-  form{display:flex;gap:10px;position:relative;z-index:1}
-  input[type=email]{
-    flex:1;min-width:0;padding:14px 18px;font-size:16px;color:var(--ink);background:transparent;
-    border:1px solid transparent;border-radius:999px;outline:none;transition:opacity .18s;
-  }
-  .joinbtn{background:transparent;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .18s}
-  .joinbtn:hover{background:transparent}
-  .goo{position:absolute;inset:0;z-index:0;pointer-events:none}
-  .join.is-merging .goo{filter:url(#goo)}
-  .goo-a,.goo-b{
-    position:absolute;border-radius:999px;
-    transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .4s,box-shadow .2s;
-  }
-  .goo-a{background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
-  .goo-b{background:var(--ink)}
-  /* reactive: the button leans toward the field and the two pills bridge */
-  .join:not(.is-merging):has(.joinbtn:hover) .goo-b,
-  .join:not(.is-merging):has(.joinbtn:hover) .joinbtn{transform:var(--lean) scale(1.04)}
-  .join:not(.is-merging):has(.joinbtn:active) .goo-b,
-  .join:not(.is-merging):has(.joinbtn:active) .joinbtn{transform:var(--lean) scale(.96)}
-  .join:not(.is-merging):has(.joinbtn:hover) .goo-b{background:#000}
-  .join:not(.is-merging):has(input:focus) .goo-a{box-shadow:inset 0 0 0 1px var(--ink)}
-  .join:not(.is-merging):has(input:focus) .goo-b,
-  .join:not(.is-merging):has(input:focus) .joinbtn{transform:var(--lean)}
-  /* success: labels fade, both pills melt into one circle */
-  .join.is-merging form{pointer-events:none}
-  .join.is-merging input[type=email],.join.is-merging .joinbtn{opacity:0}
-  .join.is-merging .goo-a,.join.is-merging .goo-b{
-    transition:left .62s cubic-bezier(.7,0,.3,1),top .62s cubic-bezier(.7,0,.3,1),
-      width .62s cubic-bezier(.7,0,.3,1),height .62s cubic-bezier(.7,0,.3,1),
-      background .4s ease .12s,box-shadow .3s;
-  }
-  .join.is-merging .goo-a{background:var(--ink);box-shadow:none}
-  .join.is-done form,.join.is-done .goo{visibility:hidden}
-  /* the checkmark circle, then it slides over and the text fades in */
-  .done{
-    position:absolute;left:50%;top:50%;z-index:2;width:100%;
-    display:flex;align-items:center;justify-content:center;gap:14px;
-    visibility:hidden;transform:translate(calc(-50% + var(--shift,0px)),-50%);
-    transition:transform .55s cubic-bezier(.7,0,.3,1);
-  }
-  .done[hidden]{display:none}
-  .join.is-done .done{visibility:visible}
-  .join.is-moved .done{transform:translate(-50%,-50%)}
-  .check{width:52px;height:52px;border-radius:50%;background:var(--ink);flex:none;display:grid;place-items:center}
-  .check svg{width:26px;height:26px;display:block}
-  .check path{
-    fill:none;stroke:#fff;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;
-    stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .5s cubic-bezier(.65,0,.45,1);
-  }
-  .join.is-drawn .check path{stroke-dashoffset:0}
-  .join.is-drawn .check{animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
-  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.1)}100%{transform:scale(1)}}
-  .donetext{
-    font-size:14px;font-weight:600;color:var(--ink);text-align:left;min-width:0;
-    opacity:0;transform:translateX(8px);transition:opacity .4s ease .2s,transform .4s ease .2s;
-  }
-  .join.is-moved .donetext{opacity:1;transform:none}
-  @media (prefers-reduced-motion: reduce){
-    .goo-a,.goo-b,.join.is-merging .goo-a,.join.is-merging .goo-b,.joinbtn,.done,.check path,.donetext{transition:none}
-    .join.is-drawn .check{animation:none}
-  }
-  .note{font-size:13px;color:var(--faint);margin-top:14px}
-  .msg{margin-top:10px;font-size:15px;min-height:18px}
-  .msg.ok{color:var(--teal)}
-  .msg.err{color:#a4552f}
-
-  /* ---------- hero shell: Paper Shaders mesh gradient behind nav + hero only ---------- */
-  .hero-shell{position:relative;overflow:hidden;background:var(--bg)}
-  .hero-shell > .wrap{position:relative;z-index:1}
-  .shader-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-  .shader-layer{position:absolute;inset:0}
-  .shader-layer canvas{display:block;width:100%;height:100%}
-  .shader-wire{opacity:.3}
-  .shader-fade{position:absolute;left:0;right:0;bottom:0;height:38%;
-    background:linear-gradient(to bottom, rgba(250,249,247,0), var(--bg))}
-
-  /* ---------- page-open entrance: headline stays put, the rest rises in ---------- */
-  @media (prefers-reduced-motion: no-preference){
-    @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-    .join,.msg{animation:rise .6s ease .12s both}
-    .demo{animation:rise .6s ease .44s both}
-  }
-
-  /* ---------- demo video ---------- */
-  .demo{padding:34px 0 8px}
-  .videoframe{
-    position:relative;max-width:780px;margin:0 auto;
-    border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#0d1117;
-    box-shadow:0 24px 60px -36px rgba(28,27,25,.4);
-  }
-  .videoframe video{display:block;width:100%;height:auto;cursor:pointer}
-  .soundhint{
-    position:absolute;right:14px;bottom:14px;padding:8px 14px;border:none;border-radius:999px;
-    background:rgba(28,27,25,.72);color:#fff;font-size:13px;font-weight:600;cursor:pointer;
-    backdrop-filter:blur(6px);
-  }
-  .soundhint[hidden]{display:none}
-  .caption{text-align:center;font-size:13px;color:var(--faint);margin-top:12px}
-
-  /* ---------- logo strip ---------- */
-  .logos{
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-    margin-top:72px;padding:30px 0;overflow:hidden;position:relative;
-  }
-  .logos-track{display:flex;align-items:center;gap:120px;width:max-content}
-  .logos-track img{height:72px;width:auto;filter:grayscale(1);opacity:.78;flex:none}
-  .logos-track img.wide{height:44px}
-  .logos-track img.seal{height:92px}
-  @media (prefers-reduced-motion: no-preference){
-    .logos-track{animation:marquee 24s linear infinite}
-    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  }
-  @media(max-width:800px){
-    .logos-track{gap:64px}
-    .logos-track img{height:52px}
-    .logos-track img.wide{height:32px}
-    .logos-track img.seal{height:66px}
-  }
-
-  /* ---------- toolkit: tabbed feature grid ---------- */
-  .toolkit{padding:84px 0 8px}
-  .bigtitle{text-align:center;font-size:clamp(34px,5vw,54px);font-weight:800;letter-spacing:-1.2px}
-  .tabwrap{position:relative;width:max-content;max-width:100%;margin:30px auto 0}
-  .tabbar{
-    display:flex;gap:4px;background:var(--card);border:1px solid var(--line);
-    border-radius:999px;padding:5px;width:max-content;max-width:100%;
-    overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
-  }
-  .tabhint{display:none}
-  .tabbar::-webkit-scrollbar{display:none}
-  .tabbn{all:unset}
-  .tabbtn{
-    display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;
-    font:inherit;font-size:15px;font-weight:600;color:var(--ink);
-    background:none;border:none;cursor:pointer;white-space:nowrap;
-  }
-  .tabbtn.active{background:var(--ink);color:#fff}
-  .panels{margin-top:34px}
-  .panel{display:none}
-  .panel.active{
-    display:grid;grid-template-columns:1fr 1.5fr;gap:20px;align-items:stretch;
-    animation:panelin .4s ease;
-  }
-  @keyframes panelin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  .card{
-    background:#F1EDE3;border-radius:24px;overflow:hidden;
-    display:flex;flex-direction:column;
-  }
-  .card .cardcopy{padding:28px 28px 18px;min-height:168px}
-  .card h3{font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.5px;line-height:1.15}
-  .card p{font-size:15px;color:var(--muted);margin-top:8px;max-width:520px}
-  .card .cardshot{padding:0 28px 28px;margin-top:auto}
-  .card .cardshot img{
-    display:block;width:100%;height:400px;object-fit:cover;object-position:top center;
-    border-radius:12px;border:1px solid var(--line);
-  }
-
-  /* ---------- stance ---------- */
-  .stance{margin:96px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-    padding:64px 0;text-align:center}
-  .stance h2{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px}
-  .stance p{font-size:17px;color:var(--muted);max-width:600px;margin:16px auto 0}
-
-  footer{border-top:1px solid var(--line);padding:28px 0 40px;text-align:center;
-    font-size:13px;color:var(--faint)}
-
-  /* ---------- scroll reveal ---------- */
-  @media (prefers-reduced-motion: no-preference){
-    .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
-    .reveal.in{opacity:1;transform:none}
-  }
-
-  @media(max-width:800px){
-    .toolkit{padding:64px 0 8px}
-    .panel.active{grid-template-columns:1fr}
-    .card .cardshot img{height:430px}
-    .card .cardcopy{min-height:214px}
-    .tabbar{justify-content:flex-start}
-    .tabhint{
-      display:flex;position:absolute;top:2px;bottom:2px;width:52px;
-      align-items:center;border:none;padding:0;cursor:pointer;color:var(--ink);
-      transition:opacity .25s ease;
-    }
-    .tabhint-r{
-      right:2px;justify-content:flex-end;padding-right:10px;
-      border-radius:0 999px 999px 0;
-      background:linear-gradient(to right, rgba(255,255,255,0), var(--card) 55%);
-    }
-    .tabhint-l{
-      left:2px;justify-content:flex-start;padding-left:10px;
-      border-radius:999px 0 0 999px;
-      background:linear-gradient(to left, rgba(255,255,255,0), var(--card) 55%);
-    }
-    .tabhint.hide{opacity:0;pointer-events:none}
-    form{flex-direction:column}
-    form .btn{width:100%;text-align:center}
-    .join{--lean:translateY(-6px)}
-    .done{gap:12px}
-    .donetext{font-size:13.5px}
-    nav .btn{padding:10px 18px;font-size:14px}
-  }
-</style>
+<link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="fonts/space-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="css/site.css?v=3" />
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -260,375 +28,230 @@
       </filter>
     </defs>
   </svg>
-  <div class="hero-shell">
-    <div class="shader-bg" aria-hidden="true">
-      <div class="shader-layer" id="shaderBase"></div>
-      <div class="shader-layer shader-wire" id="shaderWire"></div>
-      <div class="shader-fade"></div>
-    </div>
-    <div class="wrap">
-    <nav>
-      <div class="logo"><img src="img/logo-mark.svg" alt="" />Glyph</div>
-    </nav>
+  <div class="grain" aria-hidden="true"></div>
 
-    <header>
-      <div class="eyebrow mono">Coming 2026</div>
-      <h1>The classroom that lives inside your notebook.</h1>
-
-      <div class="join" id="join">
-        <div class="goo" aria-hidden="true">
-          <div class="goo-a" id="gooA"></div>
-          <div class="goo-b" id="gooB"></div>
-        </div>
-        <form id="waitform">
-          <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" />
-          <button type="submit" class="btn joinbtn" id="submitBtn">Join the waitlist</button>
-        </form>
-        <div class="done" id="done" role="status" aria-live="polite" hidden>
-          <div class="check" aria-hidden="true">
-            <svg viewBox="0 0 52 52"><path d="M15 27l8 8 15-16" pathLength="1"/></svg>
-          </div>
-          <p class="donetext">You're on the list. We'll email you when Glyph opens up.</p>
-        </div>
+  <header class="nav ld" id="nav" style="--d:.05s">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="Glyph"><img src="img/logo-mark.svg" alt="" width="28" height="28" />Glyph</a>
+      <div class="nav-right">
+        <span class="tag"><i class="dot" aria-hidden="true"></i>Coming 2026</span>
+        <a class="btn btn-ink" href="#join">Join the waitlist</a>
       </div>
-      <div class="msg" id="msg" role="status" aria-live="polite"></div>
-    </header>
     </div>
-  </div>
+  </header>
 
-  <div class="wrap">
-    <!-- demo video -->
-    <section class="demo">
-      <div class="videoframe">
-        <video id="demoVideo" autoplay muted loop playsinline preload="metadata">
-          <source src="demo.mp4?v=2" type="video/mp4" />
+  <main>
+    <!-- ================= hero ================= -->
+    <section class="hero" id="top">
+      <div class="hero-media" aria-hidden="true">
+        <video id="nibVideo" muted playsinline preload="none" disablepictureinpicture>
+          <source src="video/nib.mp4" type="video/mp4" />
         </video>
-        <button class="soundhint" id="soundHint" type="button">🔇 Tap for sound</button>
+        <img class="hero-still" src="video/nib-end.jpg" alt="" width="1920" height="1080" />
+      </div>
+      <div class="hero-copy wrap">
+        <p class="eyebrow ld" style="--d:.12s">iPad + Apple Pencil<span class="m-only"> · Coming 2026</span></p>
+        <h1 class="display h1-words" id="h1" aria-label="The classroom that lives inside your notebook."><span class="w" style="--i:0">The</span> <span class="w" style="--i:1">classroom</span> <span class="w" style="--i:2">that</span> <span class="w" style="--i:3">lives</span> <span class="w" style="--i:4">inside</span> <span class="w" style="--i:5">your</span> <em><span class="w" style="--i:6">notebook.</span></em></h1>
+        <p class="lede ld" style="--d:.62s">Write by hand. Glyph reads your notes, teaches from them, and shows you the math — not just the answer.</p>
+        <div class="join ld" id="join" style="--d:.74s">
+          <div class="goo" aria-hidden="true"><div class="goo-a"></div><div class="goo-b"></div></div>
+          <form id="waitform" novalidate>
+            <label class="sr-only" for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email</label>
+            <input type="email" id="email" placeholder="you@email.com" required autocomplete="email" inputmode="email" />
+            <button type="submit" class="btn joinbtn">Join the waitlist</button>
+          </form>
+          <div class="done" role="status" aria-live="polite" hidden>
+            <div class="check" aria-hidden="true"><svg viewBox="0 0 52 52"><path d="M15 27l8 8 15-16" pathLength="1"/></svg></div>
+            <p class="donetext">You're on the list. We'll email you when Glyph opens up.</p>
+          </div>
+        </div>
+        <p class="msg" role="status" aria-live="polite"></p>
+        <p class="note ld" style="--d:.86s">Taking notes is free, forever · one email when it opens · <a href="privacy.html">no cookies, no trackers</a></p>
+      </div>
+      <div class="hero-foot wrap ld" style="--d:1.2s">
+        <span class="scroll-cue"><i aria-hidden="true"></i>Scroll</span>
+        <span class="scroll-cue">Rendered, not photographed</span>
       </div>
     </section>
 
-    <!-- where we come from -->
-    <div class="logos" aria-label="Texas A&M University, The University of Texas at Austin, AltaIR Capital">
-      <div class="logos-track">
-        <img src="img/logo-tamu.svg" alt="Texas A&M University" class="seal" />
-        <img src="img/logo-ut.png" alt="The University of Texas at Austin" class="seal" />
-        <img src="img/logo-altair.png" alt="AltaIR Capital" class="wide" />
-        <img src="img/logo-unt.svg" alt="University of North Texas" />
-        <img src="img/logo-ycss.svg" alt="Y Combinator Startup School" class="wide" />
-        <img src="img/logo-tamu.svg" alt="" class="seal" />
-        <img src="img/logo-ut.png" alt="" class="seal" />
-        <img src="img/logo-altair.png" alt="" class="wide" />
-        <img src="img/logo-unt.svg" alt="" />
-        <img src="img/logo-ycss.svg" alt="" class="wide" />
+    <!-- ================= provenance ================= -->
+    <section class="prov">
+      <div class="wrap prov-inner rv">
+        <div class="prov-group">
+          <span class="eyebrow">Built at</span>
+          <img src="img/logo-ut-128.png" alt="The University of Texas at Austin" class="seal" loading="lazy" />
+          <img src="img/logo-tamu.svg" alt="Texas A&amp;M University" class="seal" loading="lazy" />
+          <img src="img/logo-unt.svg" alt="University of North Texas" loading="lazy" />
+        </div>
+        <div class="prov-group">
+          <span class="eyebrow">Backed by</span>
+          <img src="img/logo-altair.png" alt="AltaIR Capital" class="wide" loading="lazy" />
+          <span class="prov-text">Y Combinator Startup School</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= the film ================= -->
+    <section class="film sec">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="eyebrow">The film · 1:05</span>
+          <h2 class="display">Watch a page <em>get read.</em></h2>
+          <p class="lede">A fountain pen, a sheet of cotton, and an iPad that reads what you wrote — then teaches from it. Every frame is the real app.</p>
+        </div>
+      </div>
+      <div class="wrap-wide">
+        <div class="filmcard rv rv-scale" id="filmcard" style="--d:.15s">
+          <video id="film" preload="none" poster="video/film-poster.jpg" playsinline muted loop aria-label="GlyphInk, the film. One minute five seconds."><source src="video/film.mp4" type="video/mp4" data-full="video/film.mp4" data-small="video/film-720.mp4" /></video>
+          <button class="pill playbtn" id="playBtn" type="button" aria-label="Play the film">Watch</button>
+          <button class="pill soundbtn" id="soundBtn" type="button" aria-label="Sound" aria-pressed="false">Sound on</button>
+          <div class="bar" aria-hidden="true"><i id="filmbar"></i></div>
+        </div>
+        <div class="caption rv" style="--d:.25s"><span>A notebook that reads your hand</span><span>A short film · 2026</span></div>
+      </div>
+    </section>
+
+    <!-- ================= how it works ================= -->
+    <section class="how sec">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="eyebrow">How it works</span>
+          <h2 class="display">Write. Circle. <em>Learn.</em></h2>
+        </div>
+        <ol class="steps" id="steps">
+          <li class="step rv">
+            <div class="step-copy">
+              <span class="num">01</span>
+              <h3 class="display">Write like you always have.</h3>
+              <p>Ruled, dotted, or blank. Your handwriting, your pace, an Apple Pencil canvas that stays out of the way. Glyph reads every line as you write it, on-device.</p>
+              <p class="mono-note">Ink is read as ink, on-device</p>
+            </div>
+            <figure class="frame"><img src="img/app/canvas_ink.jpg" alt="Handwritten physics equations on a Glyph page: v = u + at and F = ma" loading="lazy" width="1800" height="1241" /></figure>
+          </li>
+          <li class="step rv">
+            <div class="step-copy">
+              <span class="num">02</span>
+              <h3 class="display">Circle anything.</h3>
+              <p>Lasso a term, a step, a whole problem. A capsule rises under it — Explain, Hint, Check my work — and it knows what you circled because it read the page.</p>
+              <p class="mono-note">Explain · Hint · Check my work</p>
+            </div>
+            <figure class="frame"><img src="img/app/capsule.jpg" alt="A lasso around F = ma with the Explain, Hint, Check my work capsule beneath it" loading="lazy" width="1800" height="1241" /></figure>
+          </li>
+          <li class="step rv">
+            <div class="step-copy">
+              <span class="num">03</span>
+              <h3 class="display">It teaches. It never <em>just tells.</em></h3>
+              <p>Steps written out like a tutor on paper. A worksheet aimed at the exact spot you slipped. A quiz later, from your own pages — because that's how things stick.</p>
+              <p class="mono-note">Steps first · answer last</p>
+            </div>
+            <figure class="frame"><img src="img/app/lesson.jpg" alt="A Glyph lesson: d/dx (x³), your turn to bring the exponent down, with re-explain and next step" loading="lazy" width="1800" height="1241" /></figure>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= toolkit ================= -->
+    <section class="kit sec">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="eyebrow">The toolkit</span>
+          <h2 class="display">A widget for <em>everything.</em></h2>
+          <p class="lede">Everything a study session needs, floating on the page you're writing on — not in five other apps.</p>
+        </div>
+        <div class="bento" data-stagger>
+          <article class="card">
+            <div class="cardcopy"><span class="k">01 · Worksheets</span><h3>Written for you</h3><p>Your tutor reads your pages, finds the spots you slipped on, and writes a practice set aimed exactly there.</p></div>
+            <div class="shot"><img src="img/app2/worksheet.jpg" alt="An agent-generated chain rule worksheet" loading="lazy" /></div>
+          </article>
+          <article class="card">
+            <div class="cardcopy"><span class="k">02 · Tutor</span><h3>A tutor in the margin</h3><p>Ask about anything on your page — plain language, steps written out. Instant and on-device.</p></div>
+            <div class="shot"><img src="img/app2/tutor.jpg" alt="The tutor solving 2x + 3 = 7 step by step beside handwritten notes" loading="lazy" /></div>
+          </article>
+          <article class="card">
+            <div class="cardcopy"><span class="k">03 · Widgets</span><h3>Tools beside your notes</h3><p>Graphing, calculator, Math Lab, timers — docked on the page, never a tab away.</p></div>
+            <div class="shot"><img src="img/app2/widgets.jpg" alt="Graphing, calculator and Math Lab widgets over a handwritten page" loading="lazy" /></div>
+          </article>
+          <article class="card wide">
+            <div class="cardcopy"><span class="k">04 · Study</span><h3>Notes become flashcards. Then quizzes.</h3><p>Glyph builds a deck from the pages you wrote, then tests you on them — retrieval practice, built in, not bolted on.</p></div>
+            <div class="shot"><img class="pos-c" src="img/app2/flashcards.jpg" alt="A flashcard generated from notes" loading="lazy" /><img src="img/app2/quiz.jpg" alt="An auto-generated quiz question" loading="lazy" /></div>
+          </article>
+          <article class="card">
+            <div class="cardcopy"><span class="k">05 · Audio</span><h3>Just ask, out loud</h3><p>Talk to your tutor and it talks back. Record the lecture and it writes itself down beside your notes.</p></div>
+            <div class="shot"><img class="pos-c" src="img/app2/voice.jpg" alt="The voice tutor answering a spoken question" loading="lazy" /></div>
+          </article>
+          <article class="card full">
+            <div class="cardcopy"><span class="k">06 · Together</span><h3>Friends on the same page. Literally.</h3><p>Match with classmates studying the same thing — their ink shows up live, in their colour, with a chat beside the page. One switch presents it to the room.</p></div>
+            <div class="shot"><img src="img/app2/session.jpg" alt="A live study session with friends writing on the page" loading="lazy" /><img src="img/app2/present.jpg" alt="Presenting a page to eight viewers with a raised hand" loading="lazy" /></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= the object ================= -->
+    <section class="object">
+      <div class="wrap-wide">
+        <div class="plate rv rv-scale">
+          <img id="plateImg" src="img/app/device_web.jpg" alt="An iPad lying on a pale surface, showing a handwritten page about matrix transformations" loading="lazy" width="2200" height="1120" />
+          <div class="plate-copy">
+            <span class="eyebrow">The object</span>
+            <h2 class="display">Feels like paper. <em>Thinks like a tutor.</em></h2>
+            <p class="lede">A real page from the app, set down as an object. Nothing on this page is a mock-up.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= stance ================= -->
+    <section class="stance dark">
+      <img class="mark" src="img/logo-mark.svg" alt="" aria-hidden="true" />
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="eyebrow">The stance</span>
+          <h2 class="display">Built to make you learn, <em>not skip.</em></h2>
+          <p class="lede">Glyph never just hands you the answer. It walks the steps, shows the picture, and quizzes you later — because the research is clear: that's how things actually stick.</p>
+        </div>
+        <div class="facts" data-stagger>
+          <div class="fact"><span class="k">Rule 01</span><b>Never just the answer.</b><p>Explain, hint, check — the answer is last, and it comes with the working.</p></div>
+          <div class="fact"><span class="k">Rule 02</span><b>Retrieval, built in.</b><p>Flashcards and quizzes come from your own pages, on a schedule that remembers for you.</p></div>
+          <div class="fact"><span class="k">Rule 03</span><b>Your notes stay yours.</b><p>Reading and tutoring run on-device. Taking notes is free, forever.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= final CTA ================= -->
+    <section class="cta">
+      <div class="wrap rv">
+        <span class="eyebrow">Waitlist</span>
+        <h2 class="display">Get on <em>the list.</em></h2>
+        <div class="join" id="join2">
+          <div class="goo" aria-hidden="true"><div class="goo-a"></div><div class="goo-b"></div></div>
+          <form novalidate>
+            <label for="email2" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email</label>
+            <input type="email" id="email2" placeholder="you@email.com" required autocomplete="email" inputmode="email" />
+            <button type="submit" class="btn joinbtn">Join the waitlist</button>
+          </form>
+          <div class="done" role="status" aria-live="polite" hidden>
+            <div class="check" aria-hidden="true"><svg viewBox="0 0 52 52"><path d="M15 27l8 8 15-16" pathLength="1"/></svg></div>
+            <p class="donetext">You're on the list. We'll email you when Glyph opens up.</p>
+          </div>
+        </div>
+        <p class="msg" role="status" aria-live="polite"></p>
+        <p class="note">We email once, when Glyph opens. That's it.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-row">
+        <span>Glyph · Built by Vaibhav &amp; Sudeep · 2026</span>
+        <span class="links"><a href="mailto:hello@glyphedu.tech">hello@glyphedu.tech</a><a href="privacy.html">Privacy</a><span>No cookies, no trackers</span></span>
       </div>
     </div>
+    <div class="wordmark" aria-hidden="true">Glyph</div>
+  </footer>
 
-    <!-- toolkit: tabbed feature grid -->
-    <section class="toolkit reveal" id="toolkit">
-      <h2 class="bigtitle">A widget for everything.</h2>
-
-      <div class="tabwrap">
-      <div class="tabbar" role="tablist">
-        <button class="tabbtn active" data-tab="tutor" role="tab" aria-selected="true">
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0l1.9 6.1L16 8l-6.1 1.9L8 16l-1.9-6.1L0 8l6.1-1.9z"/></svg>
-          Tutor</button>
-        <button class="tabbtn" data-tab="widgets" role="tab" aria-selected="false">
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="7" height="7" rx="1.5"/><rect x="9" y="0" width="7" height="7" rx="1.5"/><rect x="0" y="9" width="7" height="7" rx="1.5"/><rect x="9" y="9" width="7" height="7" rx="1.5"/></svg>
-          Widgets</button>
-        <button class="tabbtn" data-tab="study" role="tab" aria-selected="false">
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="1" y="4.5" width="11" height="10" rx="2"/><path d="M4 4.5V3a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-1.5"/></svg>
-          Study</button>
-        <button class="tabbtn" data-tab="audio" role="tab" aria-selected="false">
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="3.5" y="3" width="2" height="10" rx="1"/><rect x="7" y="0.5" width="2" height="15" rx="1"/><rect x="10.5" y="3.5" width="2" height="9" rx="1"/><rect x="14" y="6" width="2" height="4" rx="1"/></svg>
-          Audio</button>
-        <button class="tabbtn" data-tab="together" role="tab" aria-selected="false">
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="3"/><circle cx="11.5" cy="6" r="2.3"/><path d="M0 14c0-2.8 2.2-5 5-5s5 2.2 5 5v1H0zM10.4 9.4a4.6 4.6 0 0 1 5.6 4.5v1h-4.5v-1c0-1.7-.4-3.2-1.1-4.5z"/></svg>
-          Together</button>
-      </div>
-      <button class="tabhint tabhint-l hide" type="button" aria-label="Previous tab">
-        <svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2L4 6l4 4"/></svg>
-      </button>
-      <button class="tabhint tabhint-r" type="button" aria-label="Next tab">
-        <svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2l4 4-4 4"/></svg>
-      </button>
-      </div>
-
-      <div class="panels">
-        <div class="panel active" data-panel="tutor">
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Worksheets, written for you</h3>
-              <p>Your tutor reads your pages, finds the spots you slipped on, and writes a practice set aimed exactly there.</p>
-            </div>
-            <div class="cardshot"><img src="img/worksheet.jpg" alt="An agent-generated chain rule worksheet" loading="lazy" /></div>
-          </div>
-          <div class="card">
-            <div class="cardcopy">
-              <h3>A tutor in the margin</h3>
-              <p>Ask about anything on your page — plain language, steps written out like a tutor on paper. Instant and on-device.</p>
-            </div>
-            <div class="cardshot"><img src="img/tutor.jpg" alt="The tutor solving 2x + 3 = 7 step by step beside handwritten notes" loading="lazy" /></div>
-          </div>
-        </div>
-
-        <div class="panel" data-panel="widgets">
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Feels like paper</h3>
-              <p>Real covers, ruled pages, and an Apple Pencil canvas that stays out of your way. Your notes look like yours.</p>
-            </div>
-            <div class="cardshot"><img src="img/home.jpg" alt="The Glyph home screen with a teal Calculus II notebook" loading="lazy" /></div>
-          </div>
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Your tools live beside your notes</h3>
-              <p>Desmos, calculator, Math Lab, timers — floating on the page you're writing on, not in five other apps.</p>
-            </div>
-            <div class="cardshot"><img src="img/widgets.jpg" alt="Graphing, calculator and Math Lab widgets over a handwritten page" loading="lazy" /></div>
-          </div>
-        </div>
-
-        <div class="panel" data-panel="study">
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Notes become flashcards</h3>
-              <p>Glyph reads the pages you wrote and builds a deck from them — flip through, mark what stuck.</p>
-            </div>
-            <div class="cardshot"><img src="img/flashcards.jpg" alt="A flashcard generated from notes" loading="lazy" /></div>
-          </div>
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Then it quizzes you</h3>
-              <p>Quizzes generated from the same pages. Retrieval practice is the most effective technique learning research has found — built in, not bolted on.</p>
-            </div>
-            <div class="cardshot"><img src="img/quiz.jpg" alt="An auto-generated quiz question" loading="lazy" /></div>
-          </div>
-                  </div>
-
-        <div class="panel" data-panel="audio">
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Just ask, out loud</h3>
-              <p>Talk to your tutor and it talks back — a voice you can interrupt, built on the same never-just-the-answer teaching.</p>
-            </div>
-            <div class="cardshot"><img src="img/voice.jpg" alt="The voice tutor answering a spoken question" loading="lazy" /></div>
-          </div>
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Lectures write themselves down</h3>
-              <p>Record the lecture while you write. Glyph transcribes it live and turns it into notes beside your own.</p>
-            </div>
-            <div class="cardshot"><img src="img/record.jpg" alt="A lecture recording with a live streaming transcript" loading="lazy" /></div>
-          </div>
-        </div>
-
-        <div class="panel" data-panel="together">
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Present to the room</h3>
-              <p>Walk the room through your page live — see who's watching, take raised hands. One switch turns it on.</p>
-            </div>
-            <div class="cardshot"><img src="img/present.jpg" alt="Presenting a page to eight viewers with a raised hand" loading="lazy" /></div>
-          </div>
-          <div class="card">
-            <div class="cardcopy">
-              <h3>Friends on the same page. Literally.</h3>
-              <p>Match with classmates studying the same thing — their ink shows up live, in their color, with a chat beside the page.</p>
-            </div>
-            <div class="cardshot"><img src="img/session.jpg" alt="A live study session with friends writing on the page" loading="lazy" /></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- stance -->
-    <section class="stance reveal">
-      <h2>Built to make you learn, not skip.</h2>
-      <p>Glyph never just hands you the answer. It walks the steps, shows the picture, and quizzes you later — because the research is clear: that's how things actually stick.</p>
-    </section>
-
-  </div>
-
-  <footer>Glyph · Built by Vaibhav &amp; Sudeep · 2026 · <a href="/privacy.html" style="color:inherit">Privacy</a> · No cookies, no trackers</footer>
-
-<script>
-  // ---------- email capture (Google Sheets via Apps Script) ----------
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7xuVthOQU0OkO4v6tBCBwHKzJ2E1brT7l3C3pMkXKQ4K1vIaApcCMsipndh6_mJ2Q/exec";
-
-  const join = document.getElementById("join");
-  const form = document.getElementById("waitform");
-  const emailEl = document.getElementById("email");
-  const btn = document.getElementById("submitBtn");
-  const msg = document.getElementById("msg");
-  const gooA = document.getElementById("gooA");
-  const gooB = document.getElementById("gooB");
-  const doneRow = document.getElementById("done");
-  const doneText = doneRow.querySelector(".donetext");
-  let merging = false;
-
-  // the liquid pills sit under the transparent input + button and copy their boxes
-  const place = (shape, el) => {
-    shape.style.left = el.offsetLeft + "px";
-    shape.style.top = el.offsetTop + "px";
-    shape.style.width = el.offsetWidth + "px";
-    shape.style.height = el.offsetHeight + "px";
-  };
-  const syncGoo = () => { if (!merging) { place(gooA, emailEl); place(gooB, btn); } };
-  const ro = new ResizeObserver(syncGoo);
-  ro.observe(emailEl); ro.observe(btn);
-  window.addEventListener("resize", syncGoo);
-  syncGoo();
-
-  const wait = (ms) => new Promise(r => setTimeout(r, ms));
-  const nextFrame = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-  // success: pills melt into one circle → checkmark draws → circle slides over → text fades in
-  async function celebrate(){
-    merging = true;
-    ro.disconnect();
-    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const size = 52;
-    const cx = (join.clientWidth - size) / 2, cy = (join.clientHeight - size) / 2;
-    doneRow.hidden = false;
-    doneRow.style.setProperty("--shift", ((doneText.offsetWidth + 14) / 2) + "px");
-    join.classList.add("is-merging");
-    if (still) { join.classList.add("is-done", "is-drawn", "is-moved"); return; }
-    await nextFrame();
-    for (const shape of [gooA, gooB]) {
-      shape.style.left = cx + "px"; shape.style.top = cy + "px";
-      shape.style.width = size + "px"; shape.style.height = size + "px";
-    }
-    await wait(640);
-    join.classList.add("is-done");
-    await wait(80);
-    join.classList.add("is-drawn");
-    await wait(620);
-    join.classList.add("is-moved");
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = emailEl.value.trim();
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
-      msg.textContent = "Please enter a valid email.";
-      msg.className = "msg err";
-      return;
-    }
-    btn.disabled = true;
-    btn.textContent = "Joining…";
-    try{
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
-        body: "email=" + encodeURIComponent(email)
-      });
-      msg.textContent = "";
-      msg.className = "msg";
-      celebrate();
-    }catch(err){
-      msg.textContent = "Something went wrong — try again in a moment.";
-      msg.className = "msg err";
-      btn.disabled = false;
-      btn.textContent = "Join the waitlist";
-    }
-  });
-
-  // ---------- scroll reveal ----------
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries){
-      if (entry.isIntersecting){
-        entry.target.classList.add("in");
-        observer.unobserve(entry.target);
-      }
-    }
-  }, { threshold: 0.15 });
-  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-  // ---------- toolkit tabs ----------
-  document.querySelectorAll(".tabbtn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".tabbtn").forEach((b) => {
-        b.classList.toggle("active", b === btn);
-        b.setAttribute("aria-selected", b === btn ? "true" : "false");
-      });
-      document.querySelectorAll(".panel").forEach((p) => {
-        p.classList.toggle("active", p.dataset.panel === btn.dataset.tab);
-      });
-    });
-  });
-
-  // ---------- tab bar arrows (phones): click steps one tab, hide at the ends ----------
-  const tabBarEl = document.querySelector(".tabbar");
-  const tabHintL = document.querySelector(".tabhint-l");
-  const tabHintR = document.querySelector(".tabhint-r");
-  if (tabBarEl && tabHintL && tabHintR) {
-    const updateHints = () => {
-      const max = tabBarEl.scrollWidth - tabBarEl.clientWidth;
-      tabHintL.classList.toggle("hide", tabBarEl.scrollLeft <= 8);
-      tabHintR.classList.toggle("hide", tabBarEl.scrollLeft >= max - 8);
-    };
-    const stepTab = (dir) => {
-      const btns = [...tabBarEl.querySelectorAll(".tabbtn")];
-      const bar = tabBarEl.getBoundingClientRect();
-      const target = dir > 0
-        ? btns.find(b => b.getBoundingClientRect().right > bar.right + 2)
-        : btns.reverse().find(b => b.getBoundingClientRect().left < bar.left - 2);
-      if (!target) return;
-      const t = target.getBoundingClientRect();
-      const delta = dir > 0 ? t.right - bar.right + 34 : t.left - bar.left - 34;
-      tabBarEl.scrollBy({ left: delta, behavior: "smooth" });
-    };
-    tabHintR.addEventListener("click", () => stepTab(1));
-    tabHintL.addEventListener("click", () => stepTab(-1));
-    tabBarEl.addEventListener("scroll", updateHints, { passive: true });
-    window.addEventListener("resize", updateHints);
-    updateHints();
-  }
-
-  // ---------- video: first tap unmutes, then click to pause/resume ----------
-  const v = document.getElementById("demoVideo");
-  const soundHint = document.getElementById("soundHint");
-  if (v) {
-    const unmute = () => { v.muted = false; if (soundHint) soundHint.hidden = true; };
-    if (soundHint) soundHint.addEventListener("click", (e) => { e.stopPropagation(); unmute(); });
-    v.addEventListener("click", () => {
-      if (v.muted) { unmute(); return; }
-      v.paused ? v.play() : v.pause();
-    });
-  }
-</script>
-<script type="module">
-  // ---------- hero shaders: two Paper Shaders mesh gradients in the site's own palette ----------
-  import { ShaderMount } from "./js/paper-shaders/shader-mount.js";
-  import { meshGradientFragmentShader } from "./js/paper-shaders/shaders/mesh-gradient.js";
-  import { getShaderColorFromString } from "./js/paper-shaders/get-shader-color-from-string.js";
-  import { ShaderFitOptions } from "./js/paper-shaders/shader-sizing.js";
-
-  const stillPage = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const sizing = {
-    u_fit: ShaderFitOptions.contain, u_scale: 1, u_rotation: 0,
-    u_offsetX: 0, u_offsetY: 0, u_originX: .5, u_originY: .5, u_worldWidth: 0, u_worldHeight: 0
-  };
-  function mesh(id, colors, speed, extra){
-    const el = document.getElementById(id);
-    if (!el) return;
-    try {
-      new ShaderMount(el, meshGradientFragmentShader, {
-        ...sizing,
-        u_colors: colors.map(getShaderColorFromString),
-        u_colorsCount: colors.length,
-        u_distortion: .8, u_swirl: .1, u_grainMixer: 0, u_grainOverlay: 0,
-        ...extra
-      }, undefined, stillPage ? 0 : speed, 0, 1, 1920 * 1080);
-    } catch (e) {
-      // no WebGL2: the hero simply keeps its plain paper background
-    }
-  }
-  // base wash: paper creams with the brand teal drifting through
-  mesh("shaderBase", ["#1F6F75", "#F1EDE3", "#2E8A90", "#D7E7E8", "#175D63"], .6, { u_distortion: 1, u_swirl: .35 });
-  // second pass at 60%: a faint ink-and-line drift, turned 90° like the Ink preset
-  mesh("shaderWire", ["#9FC4C6", "#FAF9F7", "#1F6F75"], .45, { u_distortion: 1, u_swirl: .4, u_rotation: 90 });
-</script>
+  <script src="js/lenis.min.js"></script>
+  <script src="js/site.js?v=3"></script>
 </body>
 </html>
