@@ -16,8 +16,9 @@ video/nib.mp4     hero: the fountain-pen macro from the film (1.5 s, plays once,
 video/nib-end.jpg the macro's last frame — the hero still for reduced motion and blocked autoplay
 video/film.mp4    the full GlyphInk film, 1440×1080 with audio (13 MB, loaded lazily)
 video/film-720.mp4 the same film at 960×720 (4 MB) — served on phones and to Data Saver
-img/app/          app plates + Blender device renders (from ../glyph/Glyph/out/plates and blender/out)
-img/*.jpg         product screenshots used in the toolkit grid
+img/app/          app plates + the Blender object render (from ../glyph/Glyph/out/plates and blender/out)
+img/kit/          the toolkit gallery's images, each cut to its own subject
+img/*.jpg         the original September screenshots the kit crops come from
 img/og.jpg        social preview (1200×630)
 apps-script/      Google Apps Script that stores emails + sends the confirmation
 ```
@@ -28,7 +29,9 @@ No third-party requests: fonts, video and scripts are all served from this repo 
 
 The brief and rubric the page follows live in the build notes ("Ink on paper"): paper `#F5F2EC`, ink `#161512`,
 Instrument Serif for display, Geist for UI, Space Mono for `( LABELS )`, one easing (`cubic-bezier(.22,1,.36,1)`),
-reveals that rise from blur, the nib video as the hero, a giant wordmark to close. Keep colour out of the chrome.
+reveals that rise from blur, the nib video as the hero, a full-bleed ink block for the stance, and an edge-to-edge
+wordmark cropped at its baseline to close. Keep colour out of the chrome, and keep boxes off the page: the toolkit
+is an editorial gallery of captioned images, not a card grid.
 
 ## Email capture (Google Sheets, free)
 1. Google Sheet, row 1 headers: `A1 = Timestamp`, `B1 = Email`.
