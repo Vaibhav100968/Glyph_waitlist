@@ -49,9 +49,12 @@
     // The end-frame still only rises on top when the video cannot play (reduced motion, blocked
     // autoplay, OG capture) — that is the one case where a composed hold is better than frame 0.
     const showStill = () => media.classList.add("is-fallback");
-    if (still || og) showStill();
+    const reveal = () => media.classList.add("is-ready");
+    if (still || og) { showStill(); reveal(); }
     else {
       nib.preload = "auto";
+      nib.addEventListener("loadeddata", reveal, { once: true });
+      setTimeout(reveal, 2200);                       // never leave the hero covered
       let live = false;
       const start = () => nib.play().then(() => { live = true; }).catch(showStill);
       nib.addEventListener("playing", () => { live = true; }, { once: true });
@@ -110,6 +113,19 @@
       const p = Math.min(1, Math.max(0, (vh * 0.7 - r.top) / r.height));
       steps.style.setProperty("--p", p.toFixed(3));
       items.forEach(li => { if (li.getBoundingClientRect().top < vh * 0.7) li.classList.add("on"); });
+    };
+    window.addEventListener("scroll", tick, { passive: true }); window.addEventListener("resize", tick); tick();
+  }
+
+  /* ---------- the hero lets go as you leave it ---------- */
+  const heroMedia = $(".hero-media"), heroCopy = $(".hero-copy"), heroSec = $(".hero");
+  if (heroMedia && heroSec && !still) {
+    const tick = () => {
+      const h = heroSec.offsetHeight || innerHeight;
+      const p = Math.min(1, Math.max(0, (window.scrollY || 0) / h));
+      heroMedia.style.setProperty("--drift", (-10 - p * 5).toFixed(2) + "%");
+      heroMedia.style.opacity = (1 - p * 0.35).toFixed(3);
+      if (heroCopy) heroCopy.style.opacity = (1 - p * 1.15).toFixed(3);
     };
     window.addEventListener("scroll", tick, { passive: true }); window.addEventListener("resize", tick); tick();
   }

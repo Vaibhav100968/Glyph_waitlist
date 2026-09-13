@@ -27,11 +27,15 @@ No third-party requests: fonts, video and scripts are all served from this repo 
 
 ## Design
 
-The brief and rubric the page follows live in the build notes ("Ink on paper"): paper `#F5F2EC`, ink `#161512`,
+The brief and rubric the page follows live in the build notes ("Ink on paper"): paper `#F6F1E8`, ink `#161512`,
 Instrument Serif for display, Geist for UI, Space Mono for `( LABELS )`, one easing (`cubic-bezier(.22,1,.36,1)`),
 reveals that rise from blur, the nib video as the hero, a full-bleed ink block for the stance, and an edge-to-edge
-wordmark cropped at its baseline to close. Keep colour out of the chrome, and keep boxes off the page: the toolkit
-is an editorial gallery of captioned images, not a card grid.
+wordmark cropped at its baseline to close. Keep colour out of the chrome — the one accent is a terracotta dot — and
+keep boxes off the page: the toolkit is an editorial gallery of captioned images, not a card grid.
+
+The hero follows stele.health and moonshot.computer: one full-bleed image with the type centred low over it, a
+rotating scroll badge, and a left-to-right wipe that uncovers the media in the direction the pen travels. That same
+wipe reveals every image on the page, and it waits for the media to be ready so it is never a pop.
 
 ## Email capture (Google Sheets, free)
 1. Google Sheet, row 1 headers: `A1 = Timestamp`, `B1 = Email`.
