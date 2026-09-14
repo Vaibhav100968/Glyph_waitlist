@@ -71,9 +71,17 @@ h3.display{font-size:clamp(28px,3vw,40px)}
 .object .plate-copy{align-items:flex-start;text-align:left}
 .sec-head .lede{margin-top:4px}
 
-/* ---------- grain ---------- */
+/* ---------- grain ----------
+   No mix-blend-mode here, deliberately. The noise below is pure black with only its alpha
+   varying (see the feColorMatrix: three zero colour rows), and for a black source `multiply`
+   and `normal` reduce to the same expression, (1-as)*ab*Cb, against any backdrop. So the
+   blend was free of visual effect but not of cost: a fixed, blended, full-viewport quad at
+   z-index 200 forces everything beneath it into one render pass, which blocks hardware
+   overlay promotion of the two videos and serialises the nav behind it. Measured over a
+   full-page scroll it was the single largest source of dropped frames. If that colour
+   matrix ever gains a non-zero RGB row, this equivalence stops holding. */
 .grain{
-  position:fixed;inset:-20%;z-index:200;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+  position:fixed;inset:-20%;z-index:200;pointer-events:none;opacity:.05;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:300px 300px;
 }
@@ -104,7 +112,10 @@ h3.display{font-size:clamp(28px,3vw,40px)}
 .nav-inner{
   pointer-events:auto;max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;
   padding:6px 4px;border-radius:999px;border:1px solid transparent;
-  transition:background .5s var(--ease),border-color .5s var(--ease),padding .5s var(--ease),box-shadow .5s var(--ease),backdrop-filter .5s;
+  transition:none;
+}
+@media (prefers-reduced-motion:no-preference){
+  .nav-inner{transition:background .5s var(--ease),border-color .5s var(--ease),padding .5s var(--ease),box-shadow .5s var(--ease),backdrop-filter .5s}
 }
 .nav.is-scrolled .nav-inner{
   background:rgba(246,241,232,.9);border-color:var(--line);padding:6px 8px 6px 14px;
@@ -280,12 +291,16 @@ section{position:relative}
 }
 .film .filmcard.is-playing .playbtn{opacity:.75}
 .film .filmcard .bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(246,241,232,.15);z-index:2}
-.film .filmcard .bar i{display:block;height:100%;width:0;background:var(--paper);transition:width .25s linear}
+.film .filmcard .bar i{display:block;height:100%;width:100%;background:var(--paper);transform:scaleX(0);transform-origin:left}
+@media (prefers-reduced-motion:no-preference){.film .filmcard .bar i{transition:transform .25s linear}}
 .film .caption{max-width:1080px;margin:16px auto 0;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* ---------- how it works ---------- */
 .steps{list-style:none;position:relative;display:flex;flex-direction:column;gap:clamp(64px,7vw,104px);padding-left:0}
 .steps::before,.steps::after{content:"";position:absolute;left:23px;top:26px;bottom:26px;width:1px;background:var(--line-2);pointer-events:none}
+/* No will-change on this rail. Promoting it was proposed and measured, and it made things
+   worse: a 1px x 1500px strip becomes a tall thin layer that has to be composited on every
+   frame whether or not --p moved, which cost about five dropped frames per full-page scroll. */
 .steps::after{background:var(--ink);transform:scaleY(var(--p,0));transform-origin:top}
 .step{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,72px);align-items:center}
 .step-copy{padding-left:76px;position:relative}
@@ -458,7 +473,7 @@ footer{position:relative;overflow:hidden;padding-top:40px}
   .pill{padding:13px 16px}
   .object .plate{aspect-ratio:4/5}
   .object .plate{aspect-ratio:auto;display:flex;flex-direction:column}
-  .object .plate img{aspect-ratio:4/3;height:auto;object-position:62% 50%;transform:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%);mask-image:linear-gradient(90deg,transparent 0,#000 14%);-webkit-mask-composite:source-in;mask-composite:intersect}
+  .object .plate img{aspect-ratio:4/3;height:auto;object-position:62% 50%;transform:none;will-change:auto;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%);mask-image:linear-gradient(90deg,transparent 0,#000 14%);-webkit-mask-composite:source-in;mask-composite:intersect}
   .object .plate-copy{position:static;order:-1;transform:none;max-width:none;padding:0 4px 20px}
   .object .plate-copy h2{font-size:clamp(34px,9vw,44px)}
   .stance{padding:88px 0}
@@ -482,4 +497,18 @@ html.og .ld,html.og .h1-words .w,html.og .hero-media{animation:none!important;op
   h1.display{font-size:clamp(36px,10.5vw,44px)}
   .hero-copy .lede{font-size:15px}
   .hero-copy .note{font-size:12px}
+}
+
+/* The hero's crop is an aspect problem, not a width one. The frame is 4:3 and a phone
+   held upright is nearly twice as tall as it is wide, so `cover` on a full-height box
+   scaled the picture by its height and threw two thirds of the width away: you got the
+   shoulder of the nib, and neither the tip nor the ink it was laying. Hold the media to
+   the part of the hero the type does not use and the whole instrument is in shot again,
+   with the paper carrying on below it. */
+@media (max-aspect-ratio:4/5){
+  .hero-media{bottom:auto;height:66svh}
+  .hero-media video,.hero-media img{object-position:46% 50%}
+  .hero-media::before{
+    background:linear-gradient(180deg,rgba(246,241,232,.30) 0%,rgba(246,241,232,0) 24%,rgba(246,241,232,0) 46%,rgba(246,241,232,.92) 78%,var(--paper) 100%);
+  }
 }

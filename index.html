@@ -12,12 +12,12 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#F6F1E8" />
 <link rel="icon" type="image/svg+xml" href="img/favicon.svg?v=3" />
+<link rel="stylesheet" href="css/site.css?v=4" />
 <link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="fonts/space-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="video/nib-first.jpg" as="image" />
-<link rel="stylesheet" href="css/site.css?v=3" />
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -45,10 +45,10 @@
     <!-- ================= hero ================= -->
     <section class="hero" id="top">
       <div class="hero-media" aria-hidden="true">
-        <video id="nibVideo" muted playsinline preload="none" poster="video/nib-first.jpg" disablepictureinpicture>
+        <video id="nibVideo" muted loop playsinline preload="metadata" poster="video/nib-first.jpg" disablepictureinpicture>
           <source src="video/nib.mp4" type="video/mp4" />
         </video>
-        <img class="hero-still" src="video/nib-end.jpg" alt="" width="1920" height="1440" />
+        <img class="hero-still" src="video/nib-first.jpg" alt="" width="1920" height="1440" />
       </div>
       <div class="hero-copy wrap">
         <p class="eyebrow ld" style="--d:.10s">iPad + Apple Pencil<span class="m-only"> · Coming 2026</span></p>
@@ -83,13 +83,13 @@
       <div class="wrap prov-inner rv">
         <div class="prov-group">
           <span class="eyebrow">Built at</span>
-          <img src="img/logo-ut-128.png" alt="The University of Texas at Austin" class="seal" loading="lazy" />
-          <img src="img/logo-tamu.svg" alt="Texas A&amp;M University" class="seal" loading="lazy" />
-          <img src="img/logo-unt.svg" alt="University of North Texas" loading="lazy" />
+          <img src="img/logo-ut-128.webp" alt="The University of Texas at Austin" class="seal" loading="lazy" width="128" height="128" />
+          <img src="img/logo-tamu.svg" alt="Texas A&amp;M University" class="seal" loading="lazy" width="250" height="250" />
+          <img src="img/logo-unt.svg" alt="University of North Texas" loading="lazy" width="235" height="107" />
         </div>
         <div class="prov-group">
           <span class="eyebrow">Backed by</span>
-          <img src="img/logo-altair.png" alt="AltaIR Capital" class="wide" loading="lazy" />
+          <img src="img/logo-altair.png" alt="AltaIR Capital" class="wide" loading="lazy" width="440" height="190" />
           <span class="prov-text">Y Combinator Startup School</span>
         </div>
       </div>
@@ -106,7 +106,7 @@
       </div>
       <div class="wrap-wide">
         <div class="filmcard rv rv-scale" id="filmcard" style="--d:.15s">
-          <video id="film" preload="none" poster="video/film-poster.jpg" playsinline muted loop aria-label="GlyphInk, the film. One minute five seconds."><source src="video/film.mp4" type="video/mp4" data-full="video/film.mp4" data-small="video/film-720.mp4" /></video>
+          <video id="film" preload="none" playsinline muted loop aria-label="GlyphInk, the film. One minute five seconds."><source src="video/film.mp4" type="video/mp4" data-full="video/film.mp4" data-small="video/film-720.mp4" /></video>
           <button class="pill playbtn" id="playBtn" type="button" aria-label="Play the film">Watch</button>
           <button class="pill soundbtn" id="soundBtn" type="button" aria-label="Sound" aria-pressed="false">Sound on</button>
           <div class="bar" aria-hidden="true"><i id="filmbar"></i></div>
@@ -130,7 +130,7 @@
               <p>Ruled, dotted, or blank. Your handwriting, your pace, an Apple Pencil canvas that stays out of the way. Glyph reads every line as you write it, on-device.</p>
               <p class="mono-note">Ink is read as ink, on-device</p>
             </div>
-            <figure class="frame"><img class="wipe" src="img/app/canvas_ink.jpg" alt="Handwritten physics equations on a Glyph page: v = u + at and F = ma" loading="lazy" width="1800" height="1241" /></figure>
+            <figure class="frame"><img class="wipe" src="img/app/canvas_ink.jpg" alt="Handwritten physics equations on a Glyph page: v = u + at and F = ma" loading="lazy" width="1800" height="1240" /></figure>
           </li>
           <li class="step rv">
             <div class="step-copy">
@@ -139,7 +139,7 @@
               <p>Lasso a term, a step, a whole problem. A capsule rises under it — Explain, Hint, Check my work — and it knows what you circled because it read the page.</p>
               <p class="mono-note">Explain · Hint · Check my work</p>
             </div>
-            <figure class="frame"><img class="wipe" src="img/app/capsule.jpg" alt="A lasso around F = ma with the Explain, Hint, Check my work capsule beneath it" loading="lazy" width="1800" height="1241" /></figure>
+            <figure class="frame"><img class="wipe" src="img/app/capsule.jpg" alt="A lasso around F = ma with the Explain, Hint, Check my work capsule beneath it" loading="lazy" width="1800" height="1240" /></figure>
           </li>
           <li class="step rv">
             <div class="step-copy">
@@ -148,7 +148,7 @@
               <p>Steps written out like a tutor on paper. A worksheet aimed at the exact spot you slipped. A quiz later, from your own pages — because that's how things stick.</p>
               <p class="mono-note">Steps first · answer last</p>
             </div>
-            <figure class="frame"><img class="wipe" src="img/app/lesson.jpg" alt="A Glyph lesson: d/dx (x³), your turn to bring the exponent down, with re-explain and next step" loading="lazy" width="1800" height="1241" /></figure>
+            <figure class="frame"><img class="wipe" src="img/app/lesson.jpg" alt="A Glyph lesson: d/dx (x³), your turn to bring the exponent down, with re-explain and next step" loading="lazy" width="1800" height="1240" /></figure>
           </li>
         </ol>
       </div>
@@ -277,6 +277,6 @@
   </footer>
 
   <script src="js/lenis.min.js"></script>
-  <script src="js/site.js?v=3"></script>
+  <script src="js/site.js?v=4"></script>
 </body>
 </html>
