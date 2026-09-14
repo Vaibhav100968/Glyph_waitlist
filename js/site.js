@@ -98,15 +98,67 @@
     }
   }
 
-  // Nothing stopped the hero loop once you had scrolled past it. Harmless at the stand-in's
-  // size, much less so at the full render's. Resume only if it was genuinely playing, and
-  // swallow a rejected resume rather than popping the fallback still over a working hero.
+  /* ---------- the loop hand-off ----------
+     The `loop` attribute seeks back to zero at the end of every cycle, and that seek flushes
+     the decoder. Measured on the real file with requestVideoFrameCallback it costs about two
+     frames once every six seconds — 66ms where 33ms was expected — which on a shot this slow
+     reads as a small cut. It is not the encoding: the same hitch survives turning off
+     B-frames and even making every frame a keyframe.
+
+     So two elements take turns and nothing ever seeks. The one coming up is already parked on
+     its first frame and simply starts, and they swap a few frames before the end. This only
+     works because the write is a true loop — its first frame and its last are the same
+     picture — so the hand-off has nothing to hide. Measured again afterwards: no gap over
+     34ms in sixteen seconds, where the single element hitched twice. */
+  let heroPlay = () => {}, heroPause = () => {};
   if (nib && !still) {
     let played = false;
     nib.addEventListener("playing", () => { played = true; }, { once: true });
-    new IntersectionObserver((e) => {
-      if (e[0].isIntersecting) { if (played) nib.play().catch(() => {}); } else nib.pause();
-    }, { threshold: 0 }).observe($(".hero"));
+    const canHandOff = "requestVideoFrameCallback" in HTMLVideoElement.prototype;
+
+    if (canHandOff) {
+      const alt = nib.cloneNode(true);              // deep: the <source> child comes with it
+      alt.removeAttribute("id");
+      alt.preload = "auto";
+      alt.style.opacity = "0";
+      nib.after(alt);
+      alt.loop = nib.loop = false;                  // the hand-off replaces it
+      alt.pause();
+      let cur = nib, nxt = alt;
+      const arm = (v) => {
+        let fired = false;
+        const step = (now, meta) => {
+          // Fire on the last frame, not early. Handing over 0.2s out would start the next
+          // element at zero while this one still had six frames to show, and those six
+          // frames would simply be dropped -- trading a stall for a skip.
+          if (!fired && v.duration && meta.mediaTime >= v.duration - 1.5 / 30) {
+            fired = true;
+            nxt.play().then(() => {
+              nxt.style.opacity = "1";
+              v.style.opacity = "0";
+              const done = v;
+              setTimeout(() => { done.pause(); try { done.currentTime = 0; } catch (_) {} }, 120);
+              const n = nxt; nxt = done; cur = n; arm(n);
+            }).catch(() => { fired = false; v.requestVideoFrameCallback(step); });
+            return;
+          }
+          v.requestVideoFrameCallback(step);
+        };
+        v.requestVideoFrameCallback(step);
+      };
+      nib.addEventListener("playing", () => arm(nib), { once: true });
+      heroPlay = () => { if (played) cur.play().catch(() => {}); };
+      heroPause = () => { nib.pause(); alt.pause(); };
+    } else {
+      // No frame callback (older engines): leave the attribute doing the looping.
+      heroPlay = () => { if (played) nib.play().catch(() => {}); };
+      heroPause = () => nib.pause();
+    }
+
+    // And nothing stopped it once you had scrolled past. Two decoders make that worse, so
+    // both are parked when the hero leaves the viewport.
+    new IntersectionObserver((e) => { e[0].isIntersecting ? heroPlay() : heroPause(); },
+                             { threshold: 0 }).observe($(".hero"));
   }
 
   /* ---------- scroll reveal ---------- */
