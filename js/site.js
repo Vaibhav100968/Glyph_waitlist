@@ -312,13 +312,6 @@
     const place = (shape, b) => { shape.style.left = b.l + "px"; shape.style.top = b.t + "px"; shape.style.width = b.w + "px"; shape.style.height = b.h + "px"; };
     const sync = () => { if (merging) return; const a = box(emailEl), b = box(btn); place(gooA, a); place(gooB, b); };
     const ro = new ResizeObserver(sync); ro.observe(emailEl); ro.observe(btn); ro.observe(join);
-    // referral code: disclosure under the form, auto-filled from ?ref= links
-    const refBox = join.parentElement.querySelector(".refbox");
-    const refToggle = refBox && refBox.querySelector(".reftoggle");
-    const refInput = refBox && refBox.querySelector(".refinput");
-    const urlRef = new URLSearchParams(location.search).get("ref");
-    if (refInput && urlRef) { refInput.value = urlRef.toUpperCase(); refInput.hidden = false; if (refToggle) refToggle.hidden = true; }
-    if (refToggle && refInput) refToggle.addEventListener("click", () => { refToggle.hidden = true; refInput.hidden = false; refInput.focus(); });
     window.addEventListener("resize", sync); sync();
     document.fonts && document.fonts.ready.then(sync);
 
@@ -328,7 +321,6 @@
       doneRow.hidden = false;
       doneRow.style.setProperty("--shift", ((doneText.offsetWidth + 14) / 2) + "px");
       join.classList.add("is-merging");
-      if (refBox) refBox.hidden = true;
       if (still) { join.classList.add("is-done", "is-drawn", "is-moved"); return; }
       await nextFrame();
       for (const s of [gooA, gooB]) { s.style.left = cx + "px"; s.style.top = cy + "px"; s.style.width = size + "px"; s.style.height = size + "px"; }
@@ -342,7 +334,7 @@
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { if (msg) { msg.textContent = "Please enter a valid email."; msg.className = "msg err"; } return; }
       btn.disabled = true; btn.textContent = "Joining…";
       try {
-        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }, body: "email=" + encodeURIComponent(email) + ((refInput && refInput.value.trim()) ? "&ref=" + encodeURIComponent(refInput.value.trim().toUpperCase()) : "") });
+        await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }, body: "email=" + encodeURIComponent(email) });
         if (msg) { msg.textContent = ""; msg.className = "msg"; }
         celebrate();
       } catch (err) {
