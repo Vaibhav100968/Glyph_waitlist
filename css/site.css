@@ -512,3 +512,12 @@ html.og .ld,html.og .h1-words .w,html.og .hero-media{animation:none!important;op
     background:linear-gradient(180deg,rgba(246,241,232,.30) 0%,rgba(246,241,232,0) 24%,rgba(246,241,232,0) 46%,rgba(246,241,232,.92) 78%,var(--paper) 100%);
   }
 }
+
+/* ---------- referral code entry under the waitlist forms ---------- */
+.refbox{margin-top:12px;text-align:center}
+.reftoggle{background:none;border:none;padding:0;cursor:pointer;font:inherit;font-size:13px;color:#98938A;text-decoration:underline;text-underline-offset:3px}
+.reftoggle:hover{color:#1C1B19}
+.reftoggle[hidden]{display:none}
+.refinput{margin-top:8px;padding:9px 14px;font:inherit;font-size:14px;letter-spacing:.6px;text-transform:uppercase;color:#1C1B19;background:#fff;border:1px solid #E7E4DE;border-radius:999px;outline:none;text-align:center;width:190px}
+.refinput:focus{border-color:#1C1B19}
+.refinput[hidden]{display:none}
